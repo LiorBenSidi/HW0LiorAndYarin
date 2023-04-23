@@ -9,70 +9,78 @@ public class Main {
 
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
-        /** creating the boards.
-         * We get the board size from the user,
-         * Create 4 boards (2 for the player and 2 for the computer, when there are 2 board types: game and guessing),
-         * and initialize the boards according to the requirements. */
-        /**<p>*/Scanner scanner1 = new Scanner(System.in);
+
+        /*Gets the size of the board.*/
+        Scanner scanner1 = new Scanner(System.in);
         System.out.println("Enter the board size");
-        // TODO: לשים לב לקלט של מספר לא חד-ספרתי, להשתמש בsplit
         String boardSize = scanner1.nextLine();
-//        final int RAW = Integer.parseInt(String.valueOf(boardSize.charAt(0)));
-//        final int COLUMN = Integer.parseInt(String.valueOf(boardSize.charAt(2)));
-//        String[] temp = boardSize.split( "X");
         final int RAW = Integer.parseInt(String.valueOf(boardSize.split( "X")[0]));
         final int COLUMN = Integer.parseInt(String.valueOf(boardSize.split( "X")[1]));
 
-        int[][] playersGameBoard = new int[RAW][COLUMN];
-        int[][] playersGuessBoard = new int[RAW][COLUMN];
-        int[][] computersGameBoard = new int[RAW][COLUMN];
-        int[][] computersGuessBoard = new int[RAW][COLUMN];
+        /*creates the boards.*/
+        int[][] playersGameBoard = creatingBoards(boardSize, RAW, COLUMN);
+        int[][] playersGuessBoard = creatingBoards(boardSize, RAW, COLUMN);
+        int[][] computersGameBoard = creatingBoards(boardSize, RAW, COLUMN);
+        int[][] computersGuessBoard = creatingBoards(boardSize, RAW, COLUMN);
+
+        /* The number of battleships and their size.*/
+        System.out.println("Enter the battleships size");
+        String battleshipSizes = scanner1.nextLine();
+        /*Sets an array that store the number of battleships and there size.*/
+        int[][] arrOfShipsAndSize = setArrOfShipsAndSize(battleshipSizes);
+
+        /*Sets the Location and orientation of user's battleships.*/
+        int[][] updatedPlayersGameBoard = placingTheShips(arrOfShipsAndSize, scanner1, RAW, COLUMN, playersGameBoard);
+        int[][] updatedComputersGameBoard = placingTheShips(arrOfShipsAndSize, scanner1, RAW, COLUMN, computersGameBoard);
+
+    }
+
+    /**Creates the boards.
+     * * We get the board size from the user,
+     * * Create 4 boards (2 for the player and 2 for the computer, when there are 2 board types: game and guessing),
+     *  * and initialize the boards according to the requirements.
+     * @param boardSize Gets the size of the board.
+     * @return Returns default board.
+     */
+    public static int[][] creatingBoards(String boardSize, int RAW, int COLUMN) {
+        int[][] board = new int[RAW][COLUMN];
         for (int i = 0; i < RAW; i++){
             for (int j = 0; j < COLUMN; j++){
-                playersGameBoard[i][j] = '–';
-                playersGuessBoard[i][j] = '–';
-                computersGameBoard[i][j] = '–';
-                computersGuessBoard[i][j] = '–';
+                board[i][j] = '–';
             }
         }
-        /*
-        playersGameBoard[0][0] = ' ';
-        playersGuessBoard[0][0] = ' ';
-        computersGameBoard[0][0] = ' ';
-        computersGuessBoard[0][0] = ' ';
-        for (int i = 1; i < COLUMN + 1; i++){
-            playersGameBoard[0][i] = i - 1;
-            playersGuessBoard[0][i] = i - 1;
-            computersGameBoard[0][i] = i - 1;
-            computersGuessBoard[0][i] = i - 1;
-        }
-        for (int i = 1; i < RAW + 1; i++){
-            playersGameBoard[i][0] = i - 1;
-            playersGuessBoard[i][0] = i - 1;
-            computersGameBoard[i][0] = i - 1;
-            computersGuessBoard[i][0] = i - 1;
-        }
-        */
+        return board;
+    }
 
-        /** The number of battleships and their size.*/
-        /**<p>*/System.out.println("Enter the battleships size");
-        String battleshipSizes = scanner1.nextLine();
-//        int numberOfBattleships = ((battleshipSizes.length()) / 4) + 1;
-        String[] temp2 = battleshipSizes.split(" ");
-        int[][] arr = new int[temp2.length][2];
+    /**Sets an array that store the number of battleships and there size.
+     * @param battleshipSizes Gets the number and size of the battleships.
+     * @return Returns array that store the number of battleships and there size.
+     */
+    public static int[][] setArrOfShipsAndSize(String battleshipSizes){
+        String[] splitBattleshipSizesBySpace = battleshipSizes.split(" ");
+        int[][] arrOfShipsAndSize = new int[splitBattleshipSizesBySpace.length][2];
         int j = 0;
-        for (int i = 0; i < temp2.length; i++) {
-            // TODO: לשים לב לקלט של מספר לא חד-ספרתי
-            arr[j][0] = Integer.parseInt(String.valueOf(temp2[i].split("X")[0]));
-            arr[j][1] = Integer.parseInt(String.valueOf(temp2[i].split("X")[1]));
+        for (String s : splitBattleshipSizesBySpace) {
+            arrOfShipsAndSize[j][0] = Integer.parseInt(String.valueOf(s.split("X")[0]));
+            arrOfShipsAndSize[j][1] = Integer.parseInt(String.valueOf(s.split("X")[1]));
             j++;
         }
+        return arrOfShipsAndSize;
+    }
 
-        /**Location of user submarines.*/
-        /**<p>*/boolean massageFlag = true;
+    /**Sets the Location and orientation of user's battleships.
+     * @param arrOfShipsAndSize Gets array that store the number of battleships and there size.
+     * @param scanner1 Used to gets input from the user/
+     * @param RAW Number of raws of each board.
+     * @param COLUMN Number of column of each board.
+     * @param board Gets a game board.
+     * @return Returns the updated game board in accordance to the validity of the location of the battleships.
+     */
+    public static int[][] placingTheShips(int[][] arrOfShipsAndSize, Scanner scanner1, int RAW, int COLUMN, int[][] board){
+        boolean massageFlag = true;
         boolean validPosition = true;
         boolean alreadyTaken = true;
-        for (int[] ints : arr) {
+        for (int[] ints : arrOfShipsAndSize) {
             int numOfShipsOfTheSameSize = ints[0];
             int SizeOfShips = ints[1];
             do {
@@ -100,14 +108,14 @@ public class Main {
                         }else {
                             /**checking the left and the right sides of the ship.*/
                             // TODO: separate the following condition.
-                            if (((y - 2 > 0) && (playersGameBoard[x][y - 2] == '–') || (y - 2 < 0))
-                                    && (y + SizeOfShips >= COLUMN || (playersGameBoard[x][y + SizeOfShips] == '–'))){
+                            if (((y - 2 > 0) && (board[x][y - 2] == '–') || (y - 2 < 0))
+                                    && (y + SizeOfShips >= COLUMN || (board[x][y + SizeOfShips] == '–'))){
                                 /**checking the upside of the ship.*/
                                 if ((x - 1 >= 0) && validPosition) {
                                     if (y - 1 >= 0){
                                         if (y + SizeOfShips < COLUMN) {
                                             for (int k = y - 1; (k < (y + SizeOfShips) && validPosition); k++) {
-                                                if (playersGameBoard[x - 1][k] != '–') {
+                                                if (board[x - 1][k] != '–') {
                                                     validPosition = false;
 
                                                 }
@@ -117,7 +125,7 @@ public class Main {
                                         }
                                     } else {
                                         for (int k = y; (k < (y + SizeOfShips) && validPosition); k++) {
-                                            if (playersGameBoard[x - 1][k] != '–') {
+                                            if (board[x - 1][k] != '–') {
                                                 validPosition = false;
 
                                             }
@@ -127,7 +135,7 @@ public class Main {
                                 /**checking the underside of the ship.*/
                                 if ((x > y + SizeOfShips) && validPosition) {
                                     for (int k = y - 2; k < (y + SizeOfShips) && validPosition; k++) {
-                                        if (playersGameBoard[x][k] == '–') {
+                                        if (board[x][k] == '–') {
                                             validPosition = false;
 
                                         }
@@ -139,8 +147,8 @@ public class Main {
                             }
                             if (validPosition){
                                 for (int i = y; i < (y + SizeOfShips); i++) {
-                                    if (playersGameBoard[x][i] == '–') {
-                                        playersGameBoard[x][i] = '#';
+                                    if (board[x][i] == '–') {
+                                        board[x][i] = '#';
                                     }else {
                                         alreadyTaken = false;
                                         break;
@@ -162,7 +170,7 @@ public class Main {
                             System.err.println("Battleship exceeds the boundaries of the board, try again!");
                         }else {
                             for (int i = x; i < (x + SizeOfShips); i++){
-                                playersGameBoard[i][y] = '#';
+                                board[i][y] = '#';
                             }
                         }
                     }
@@ -173,9 +181,8 @@ public class Main {
             } while (numOfShipsOfTheSameSize > 0);
 
         }
+        return board;
     }
-
-
 
     public static void main(String[] args) throws IOException {
         String path = args[0];
