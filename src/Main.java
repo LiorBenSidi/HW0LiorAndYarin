@@ -15,9 +15,14 @@ public class Main {
          * and initialize the boards according to the requirements. */
         /**<p>*/Scanner scanner1 = new Scanner(System.in);
         System.out.println("Enter the board size");
+        // TODO: לשים לב לקלט של מספר לא חד-ספרתי, להשתמש בsplit
         String boardSize = scanner1.nextLine();
-        final int RAW = Integer.parseInt(String.valueOf(boardSize.charAt(0)));
-        final int COLUMN = Integer.parseInt(String.valueOf(boardSize.charAt(2)));
+//        final int RAW = Integer.parseInt(String.valueOf(boardSize.charAt(0)));
+//        final int COLUMN = Integer.parseInt(String.valueOf(boardSize.charAt(2)));
+//        String[] temp = boardSize.split( "X");
+        final int RAW = Integer.parseInt(String.valueOf(boardSize.split( "X")[0]));
+        final int COLUMN = Integer.parseInt(String.valueOf(boardSize.split( "X")[1]));
+
         int[][] playersGameBoard = new int[RAW][COLUMN];
         int[][] playersGuessBoard = new int[RAW][COLUMN];
         int[][] computersGameBoard = new int[RAW][COLUMN];
@@ -52,12 +57,14 @@ public class Main {
         /** The number of battleships and their size.*/
         /**<p>*/System.out.println("Enter the battleships size");
         String battleshipSizes = scanner1.nextLine();
-        int numberOfBattleships = ((battleshipSizes.length()) / 4) + 1;
-        int[][] arr = new int[numberOfBattleships][2];
+//        int numberOfBattleships = ((battleshipSizes.length()) / 4) + 1;
+        String[] temp2 = battleshipSizes.split(" ");
+        int[][] arr = new int[temp2.length][2];
         int j = 0;
-        for (int i = 0; i <= (battleshipSizes.length() - 2); i += 4) {
-            arr[j][0] = Integer.parseInt(String.valueOf(battleshipSizes.charAt(i)));
-            arr[j][1] = Integer.parseInt(String.valueOf(battleshipSizes.charAt(i + 2)));
+        for (int i = 0; i < temp2.length; i++) {
+            // TODO: לשים לב לקלט של מספר לא חד-ספרתי
+            arr[j][0] = Integer.parseInt(String.valueOf(temp2[i].split("X")[0]));
+            arr[j][1] = Integer.parseInt(String.valueOf(temp2[i].split("X")[1]));
             j++;
         }
 
@@ -73,9 +80,10 @@ public class Main {
                     System.out.println("Enter location and orientation for battleship of size " + SizeOfShips);
                 }
                 String xyo = scanner1.nextLine();
-                int x = Integer.parseInt(String.valueOf(xyo.charAt(0)));
-                int y = Integer.parseInt(String.valueOf(xyo.charAt(3)));
-                int o = Integer.parseInt(String.valueOf(xyo.charAt(6)));
+                String[] temp3 = xyo.split(", ");
+                int x = Integer.parseInt(String.valueOf(temp3[0]));
+                int y = Integer.parseInt(String.valueOf(temp3[1]));
+                int o = Integer.parseInt(String.valueOf(temp3[2]));
                 if (x > COLUMN || y > RAW) {
                     System.err.println("Illegal tile, try again!");
                     massageFlag = false;
@@ -86,43 +94,42 @@ public class Main {
                     massageFlag = true;
                     if (o == 0){
                         validPosition = true;
-                        if (y + SizeOfShips - 1 > COLUMN){
+                        if (y + SizeOfShips > COLUMN){
                             massageFlag = false;
                             System.err.println("Battleship exceeds the boundaries of the board, try again!");
                         }else {
                             /**checking the left and the right sides of the ship.*/
                             // TODO: separate the following condition.
                             if (((y - 2 > 0) && (playersGameBoard[x][y - 2] == '–') || (y - 2 < 0))
-                                    && ((y + SizeOfShips < COLUMN) && (playersGameBoard[x][y + SizeOfShips] == '–')
-                                    || (y + SizeOfShips > COLUMN))){
+                                    && (y + SizeOfShips >= COLUMN || (playersGameBoard[x][y + SizeOfShips] == '–'))){
                                 /**checking the upside of the ship.*/
                                 if ((x - 1 >= 0) && validPosition) {
                                     if (y - 1 >= 0){
                                         if (y + SizeOfShips < COLUMN) {
-                                            for (int k = y - 1; (k < (y + SizeOfShips)); k++) {
+                                            for (int k = y - 1; (k < (y + SizeOfShips) && validPosition); k++) {
                                                 if (playersGameBoard[x - 1][k] != '–') {
                                                     validPosition = false;
-                                                    break;
+
                                                 }
                                             }
                                         } else {
                                             validPosition = false;
                                         }
                                     } else {
-                                        for (int k = y; (k < (y + SizeOfShips)); k++) {
+                                        for (int k = y; (k < (y + SizeOfShips) && validPosition); k++) {
                                             if (playersGameBoard[x - 1][k] != '–') {
                                                 validPosition = false;
-                                                break;
+
                                             }
                                         }
                                     }
                                 }
                                 /**checking the underside of the ship.*/
                                 if ((x > y + SizeOfShips) && validPosition) {
-                                    for (int k = y - 2; k < (y + SizeOfShips); k++) {
+                                    for (int k = y - 2; k < (y + SizeOfShips) && validPosition; k++) {
                                         if (playersGameBoard[x][k] == '–') {
                                             validPosition = false;
-                                            break;
+
                                         }
                                     }
 
