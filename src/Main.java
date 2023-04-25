@@ -179,6 +179,20 @@ public class Main {
 
     }
 
+    /**Checks if the location of horizontal ship is valid.
+     * checking the left and the right sides of the ship.
+     * checking the upside of the ship.
+     * checking the underside of the ship.
+     * @param board Gets the game board after each input.
+     * @param x Gets the horizontal axis coordinate
+     * @param y Gets the vertical axis coordinate
+     * @param o Gets the orientation
+     * @param RAW Gets the number of raws of each board.
+     * @param COLUMN Gets the number of columns of each board.
+     * @param SizeShips Gets the size of each battleship
+     * @param isUserBoard Checks if were updating the user or computer game board.
+     * @return Returns boolean value that tells if we can locate the battleship.
+     */
     public static boolean checkHorizontalShip(char[][] board, int x, int y, int o, int RAW,
                                               int COLUMN, int SizeShips, boolean isUserBoard) {
         if (y + SizeShips > COLUMN) {
@@ -268,6 +282,20 @@ public class Main {
         return true;
     }
 
+    /**Checks if the location of vertical ship is valid.
+     * checking the upside and the underside sides of the ship.
+     * checking the left of the ship.
+     * checking the rightSide of the ship.
+     * @param board Gets the game board after each input.
+     * @param x Gets the horizontal axis coordinate
+     * @param y Gets the vertical axis coordinate
+     * @param o Gets the orientation
+     * @param RAW Gets the number of raws of each board.
+     * @param COLUMN Gets the number of columns of each board.
+     * @param SizeShips Gets the size of each battleship
+     * @param isUserBoard Checks if were updating the user or computer game board.
+     * @return Returns boolean value that tells if we can locate the battleship.
+     */
     public static boolean checkVerticalShip(char[][] board, int x, int y, int o, int RAW,
                                             int COLUMN, int SizeShips, boolean isUserBoard) {
         if (x + SizeShips > RAW) {
@@ -296,7 +324,7 @@ public class Main {
         if (y - 1 >= 0) {
             if (x - 1 >= 0) {
                 if (x + SizeShips <= RAW) {
-                    for (int k = x - 1; (k <= (x + SizeShips)); k++) {
+                    for (int k = x - 1; (k < (x + SizeShips)); k++) {
                         if (board[k][y - 1] != '–') {
                             if (isUserBoard){
                                 System.err.println("Adjacent battleship detected, try again!");
@@ -321,12 +349,14 @@ public class Main {
                 }
             }
         }
-        /*checking the rightSide of the ship.*/
+        /*checking the rightSide of the ship. */
         if (y + 1 < RAW) {
             if (x - 1 >= 0) {
-                for (int k = x - 1; k <= (x + SizeShips); k++) {
+                for (int k = x - 1; k < (x + SizeShips); k++) {
                     if (board[k][y + 1] != '–') {
-                        System.err.println("Adjacent battleship detected, try again!");
+                        if (isUserBoard){
+                            System.err.println("Adjacent battleship detected, try again!");
+                        }
                         return false;
                     }
                 }
@@ -334,7 +364,9 @@ public class Main {
                 for (int k = x ; k <= (x + SizeShips); k++) {
                     if (x + 1 < RAW) {
                         if (board[k][y + 1] != '–') {
-                            System.err.println("Adjacent battleship detected, try again!");
+                            if (isUserBoard){
+                                System.err.println("Adjacent battleship detected, try again!");
+                            }
                             return false;
                         }
                     }
@@ -345,7 +377,6 @@ public class Main {
         }
         return true;
     }
-
 
     /**Inserts the battleship coordinators into the game board
      * Check the orientation
