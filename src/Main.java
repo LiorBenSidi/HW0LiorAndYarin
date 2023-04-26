@@ -11,12 +11,10 @@ public class Main {
         // TODO: Add your code here (and add more methods).
 
         /*Gets the size of the board.*/
-        Scanner s = new Scanner(System.in);
         System.out.println("Enter the board size");
-        String boardSize = s.nextLine();
+        String boardSize = scanner.nextLine();
         final int RAW = Integer.parseInt(String.valueOf(boardSize.split( "X")[0]));
         final int COLUMN = Integer.parseInt(String.valueOf(boardSize.split( "X")[1]));
-
 
         /*creates the boards.*/
         char[][] playersGameBoard = creatingBoards(RAW, COLUMN);
@@ -26,17 +24,25 @@ public class Main {
 
         /* The number of battleships and their size.*/
         System.out.println("Enter the battleships size");
-        String battleshipSizes = s.nextLine();
+        String battleshipSizes = scanner.nextLine();
         /*Sets an array that store the number of battleships and there size.*/
         int[][] arrShipsSize = setArrOfShipsAndSize(battleshipSizes);
 
         /*Sets the Location and orientation of user's battleships.*/
-        boolean isUserBoard = true;
-        char[][] updatedPlayersGameBoard = checkingAndPlacingTheShips(arrShipsSize, s, RAW,
-                COLUMN, playersGameBoard, isUserBoard);
-        isUserBoard = false;
-        char[][] updatedComputersGameBoard = checkingAndPlacingTheShips(arrShipsSize, s, RAW,
-                COLUMN, pcGameBoard, isUserBoard);
+        char[][] updatedPlayersGameBoard = checkingAndPlacingTheShips(arrShipsSize, RAW,
+                COLUMN, playersGameBoard, true);
+
+        /*Sets the Location and orientation of computer's battleships.*/
+        char[][] updatedComputersGameBoard = checkingAndPlacingTheShips(arrShipsSize, RAW,
+                COLUMN, pcGameBoard, false);
+
+        // TODO: We need to create a loop for all the user's and computer's attacks, in order of attacks.
+
+        /*The user is attacking:*/
+        playerAttacks(playersGuessBoard , updatedPlayersGameBoard, RAW, COLUMN, true);
+
+        /*The computer is attacking:*/
+        playerAttacks(computersGuessBoard, updatedComputersGameBoard , RAW, COLUMN, false);
 
     }
 
@@ -76,13 +82,12 @@ public class Main {
 
     /**Sets the Location and orientation of user's battleships.
      * @param arrShipsSize Gets array that store the number of battleships and there size.
-     * @param s Used to gets input from the user/
      * @param RAW Gets umber of raws of each board.
      * @param COLUMN Gets Number of column of each board.
      * @param board Gets a game board.
      * @return Returns the updated game board in accordance to the validity of the location of the battleships.
      */
-    public static char[][] checkingAndPlacingTheShips(int[][] arrShipsSize, Scanner s, int RAW,
+    public static char[][] checkingAndPlacingTheShips(int[][] arrShipsSize, int RAW,
                                                       int COLUMN, char[][] board, boolean isUserBoard){
         int x, y, o;
         boolean massageFlag = true;
@@ -92,11 +97,11 @@ public class Main {
             do {
                 if (massageFlag) {
                     /*Prints the current game board each time.*/
-                    printTheBoard(board, RAW, COLUMN);
+                    printTheGameBoard(board, RAW, COLUMN);
                     System.out.println("Enter location and orientation for battleship of size " + SizeOfShips);
                 }
                 if(isUserBoard){
-                    String xyo = s.nextLine();
+                    String xyo = scanner.nextLine();
                     String[] temp3 = xyo.split(", ");
                     x = Integer.parseInt(String.valueOf(temp3[0]));
                     y = Integer.parseInt(String.valueOf(temp3[1]));
@@ -121,10 +126,10 @@ public class Main {
                     massageFlag = true;
                     if (o == 0){
                         /*Checking if valid position.*/
-                        massageFlag = checkHorizontalShip(board, x, y, o, RAW, COLUMN, SizeOfShips, isUserBoard);
+                        massageFlag = checkHorizontalShip(board, x, y, RAW, COLUMN, SizeOfShips, isUserBoard);
                     }
                     if (o == 1){
-                        massageFlag = checkVerticalShip(board, x, y, o, RAW, COLUMN, SizeOfShips, isUserBoard);
+                        massageFlag = checkVerticalShip(board, x, y, RAW, COLUMN, SizeOfShips, isUserBoard);
                     }
                     if (massageFlag){
                         board = locatesTheShip(board, x, y, o, SizeOfShips);
@@ -132,9 +137,8 @@ public class Main {
                     }
                 }
             } while (numOfShipsOfTheSameSize > 0);
-
         }
-        printTheBoard(board, RAW, COLUMN);
+        printTheGameBoard(board, RAW, COLUMN);
         return board;
     }
 
@@ -145,7 +149,7 @@ public class Main {
      * @param RAW Gets the number of raws of each board.
      * @param COLUMN Gets the number of columns of each board.
      */
-    public static void printTheBoard(char[][] board, int RAW, int COLUMN){
+    public static void printTheGameBoard(char[][] board, int RAW, int COLUMN){
         System.out.println("Your current game board:");
 
         /*Prints the row of numbers and the space before them.*/
@@ -180,20 +184,20 @@ public class Main {
     }
 
     /**Checks if the location of horizontal ship is valid.
-     * checking the left and the right sides of the ship.
-     * checking the upside of the ship.
-     * checking the underside of the ship.
+     * Checks the left and the right sides of the ship.
+     * Checks the upside of the ship.
+     * Checks the underside of the ship.
      * @param board Gets the game board after each input.
      * @param x Gets the horizontal axis coordinate
      * @param y Gets the vertical axis coordinate
-     * @param o Gets the orientation
      * @param RAW Gets the number of raws of each board.
      * @param COLUMN Gets the number of columns of each board.
      * @param SizeShips Gets the size of each battleship
      * @param isUserBoard Checks if were updating the user or computer game board.
      * @return Returns boolean value that tells if we can locate the battleship.
      */
-    public static boolean checkHorizontalShip(char[][] board, int x, int y, int o, int RAW,
+    // TODO: Check the validity of the corners of the frame.
+    public static boolean checkHorizontalShip(char[][] board, int x, int y, int RAW,
                                               int COLUMN, int SizeShips, boolean isUserBoard) {
         if (y + SizeShips > COLUMN) {
             if (isUserBoard){
@@ -209,7 +213,7 @@ public class Main {
                 return false;
             }
         }
-        /*checking the left and the right sides of the ship. */
+        /*Checks the left and the right sides of the ship. */
         if (!((y - 1 < 0 || (board[x][y - 1] == '–'))
                 && (y + SizeShips >= COLUMN || (board[x][y + SizeShips] == '–')))) {
             if (isUserBoard){
@@ -217,7 +221,7 @@ public class Main {
             }
             return false;
         }
-        /*checking the upside of the ship. */
+        /*Checks the upside of the ship. */
         if (x - 1 >= 0) {
             if (y - 1 >= 0) {
                 if (y + SizeShips <= COLUMN) {
@@ -246,7 +250,7 @@ public class Main {
                 }
             }
         }
-        /*checking the underside of the ship.*/
+        /*Checks the underside of the ship.*/
         if (x + 1 < RAW) {
             if (y > 0) {
                 for (int k = y - 1; k <= (y + SizeShips); k++) {
@@ -283,20 +287,20 @@ public class Main {
     }
 
     /**Checks if the location of vertical ship is valid.
-     * checking the upside and the underside sides of the ship.
-     * checking the left of the ship.
-     * checking the rightSide of the ship.
+     * Checks the upside and the underside sides of the ship.
+     * Checks the left of the ship.
+     * Checks the rightSide of the ship.
      * @param board Gets the game board after each input.
      * @param x Gets the horizontal axis coordinate
      * @param y Gets the vertical axis coordinate
-     * @param o Gets the orientation
      * @param RAW Gets the number of raws of each board.
      * @param COLUMN Gets the number of columns of each board.
      * @param SizeShips Gets the size of each battleship
      * @param isUserBoard Checks if were updating the user or computer game board.
      * @return Returns boolean value that tells if we can locate the battleship.
      */
-    public static boolean checkVerticalShip(char[][] board, int x, int y, int o, int RAW,
+    // TODO: Check the validity of the corners of the frame.
+    public static boolean checkVerticalShip(char[][] board, int x, int y, int RAW,
                                             int COLUMN, int SizeShips, boolean isUserBoard) {
         if (x + SizeShips > RAW) {
             if (isUserBoard){
@@ -312,7 +316,7 @@ public class Main {
                 return false;
             }
         }
-        /*checking the upside and the underside sides of the ship. */
+        /*Checks the upside and the underside sides of the ship. */
         if (!((x - 1 < 0 || (board[x - 1][y] == '–'))
                 && (x + SizeShips >= RAW || (board[x + SizeShips][y] == '–')))) {
             if (isUserBoard){
@@ -320,7 +324,7 @@ public class Main {
             }
             return false;
         }
-        /*checking the left of the ship. */
+        /*Checks the left of the ship. */
         if (y - 1 >= 0) {
             if (x - 1 >= 0) {
                 if (x + SizeShips <= RAW) {
@@ -349,7 +353,7 @@ public class Main {
                 }
             }
         }
-        /*checking the rightSide of the ship. */
+        /*Checks the rightSide of the ship. */
         if (y + 1 < RAW) {
             if (x - 1 >= 0) {
                 for (int k = x - 1; k < (x + SizeShips); k++) {
@@ -372,8 +376,6 @@ public class Main {
                     }
                 }
             }
-        }else {
-            return true;
         }
         return true;
     }
@@ -396,9 +398,122 @@ public class Main {
             for (int i = x; i < (x + SizeShips); i++) {
                 board[i][y] = '#';
             }
-
         }
         return board;
+    }
+
+    /**The user or the computers attacks.
+     * Prints the current guessing board each time.
+     * Checks if tile is valid.
+     * Checks if tile already attacked.
+     * Checks if player misses or hits.
+     * @param guessingBoard The player's guessing board.
+     * @param gameBoard The player's game board.
+     * @param RAW Gets the number of raws of each board.
+     * @param COLUMN Gets the number of columns of each board.
+     * @param isUserBoard Checks if were updating the user or computer game board.
+     */
+    public static void playerAttacks(char[][] guessingBoard, char[][] gameBoard, int RAW,
+                                     int COLUMN, boolean isUserBoard){
+        int x, y;
+        boolean isValidAttack = true;
+            do {
+                /* Prints the current guessing board each time.*/
+                printTheGuessingBoard(guessingBoard, RAW, COLUMN);
+                System.out.println("Enter a tile to attack");
+                isValidAttack = true;
+                if(isUserBoard){
+                    String xyo = scanner.nextLine();
+                    String[] temp3 = xyo.split(", ");
+                    x = Integer.parseInt(String.valueOf(temp3[0]));
+                    y = Integer.parseInt(String.valueOf(temp3[1]));
+                } else {
+                    x = rnd.nextInt(RAW);
+                    y = rnd.nextInt(COLUMN);
+                }
+                /*Checks if tile is valid.*/
+                if (x > COLUMN || y > RAW) {
+                    if (isUserBoard){
+                        System.err.println("Illegal tile, try again!");
+                    }
+                    isValidAttack = false;
+                } else {
+                    /*Checks if tile already attacked.*/
+                    for (int i = 0; i < RAW; i++){
+                        for (int j = 0; (j < COLUMN) && isValidAttack; j++){
+                            if (guessingBoard[i][j] != '–'){
+                                if (isUserBoard){
+                                    System.err.println("Tile already attacked, try again!");
+                                }
+                                isValidAttack = false;
+                            }
+                        }
+                    }
+                    /*Checks if player misses or hits.*/
+                    if (isValidAttack){
+                        if (!isUserBoard){
+                            System.out.println("The computer attacked (" + x + ", " + y + ")");
+                        }
+                        if (gameBoard[x][y] != '#'){
+                            guessingBoard[x][y] = 'X';
+                            System.out.println("That is a miss!");
+                        } else {
+                            guessingBoard[x][y] = 'V';
+                            System.out.println("That is a hit!");
+                            /*Checks if player's battleship has been drowned*/
+                            boolean isDrowned = checkIfDrowned(guessingBoard, gameBoard, x, y);
+                        }
+                    }
+                }
+            } while (!isValidAttack);
+
+        printTheGuessingBoard(guessingBoard, RAW, COLUMN);
+    }
+    /**Prints the current guessing board each time.
+     * Prints the row of numbers and the space before them.
+     * Prints the board without the number row.
+     * @param board Gets the game board before and after the input.
+     * @param RAW Gets the number of raws of each board.
+     * @param COLUMN Gets the number of columns of each board.
+     */
+    public static void printTheGuessingBoard(char[][] board, int RAW, int COLUMN){
+        System.out.println("Your current guessing board:");
+
+        /*Prints the row of numbers and the space before them.*/
+        String raw = String.valueOf(RAW);
+        int rawLength = raw.length();
+        for (int i = 0; i < rawLength; i++){
+            System.out.print(" ");
+        }
+        for (int i = 0; i < COLUMN; i++){
+            System.out.print(" " + i);
+        }
+        System.out.println();
+
+        /*Prints the board without the number row.*/
+        for (int i = 0; i < RAW; i++){
+            String lenOfI = String.valueOf(i);
+            int temp1 = lenOfI.length();
+            for (int j = 0; j < COLUMN; j++){
+                if ( j == 0 ){
+                    for (int k = 0; k < rawLength - temp1; k++){
+                        System.out.print(" ");
+                    }
+                    System.out.print(i);
+                }
+                System.out.print(" " + board[i][j]);
+                if (j + 1 == COLUMN){
+                    System.out.println();
+                }
+            }
+        }
+    }
+
+    public static boolean checkIfDrowned(char[][] guessingBoard, char[][] gameBoard, int x, int y) {
+        // TODO: Check if player's battleship has been drowned
+
+
+        return true;
     }
 
     public static void main(String[] args) throws IOException {
