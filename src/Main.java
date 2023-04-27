@@ -224,8 +224,8 @@ public class Main {
         /*Checks the upside of the ship. */
         if (x - 1 >= 0) {
             if (y - 1 >= 0) {
-                if (y + SizeShips <= COLUMN) {
-                    for (int k = y - 1; (k <= (y + SizeShips)); k++) {
+                if (y + SizeShips < COLUMN) {
+                    for (int k = y - 1; k <= (y + SizeShips); k++) {
                         if (board[x - 1][k] != '–') {
                             if (isUserBoard){
                                 System.err.println("Adjacent battleship detected, try again!");
@@ -234,13 +234,26 @@ public class Main {
                         }
                     }
                 } else {
-                    if (isUserBoard){
-                        System.err.println("Adjacent battleship detected, try again!");
+                    for (int k = y - 1; k < (y + SizeShips); k++){
+                        if (board[x - 1][k] != '–'){
+                            if (isUserBoard){
+                                System.err.println("Adjacent battleship detected, try again!");
+                            }
+                            return false;
+                        }
                     }
-                    return false;
                 }
-            } else {
+            } else if (y + SizeShips < COLUMN) {
                 for (int k = y; (k <= (y + SizeShips)); k++) {
+                    if (board[x - 1][k] != '–') {
+                        if (isUserBoard){
+                            System.err.println("Adjacent battleship detected, try again!");
+                        }
+                        return false;
+                    }
+                }
+            }else {
+                for (int k = y; (k < (y + SizeShips)); k++) {
                     if (board[x - 1][k] != '–') {
                         if (isUserBoard){
                             System.err.println("Adjacent battleship detected, try again!");
@@ -253,16 +266,27 @@ public class Main {
         /*Checks the underside of the ship.*/
         if (x + 1 < RAW) {
             if (y > 0) {
-                for (int k = y - 1; k <= (y + SizeShips); k++) {
-                    if (board[x + 1][k] != '–') {
-                        if (isUserBoard){
-                            System.err.println("Adjacent battleship detected, try again!");
+                if (y + SizeShips < COLUMN){
+                    for (int k = y - 1; k <= (y + SizeShips); k++) {
+                        if (board[x + 1][k] != '–') {
+                            if (isUserBoard){
+                                System.err.println("Adjacent battleship detected, try again!");
+                            }
+                            return false;
                         }
-                        return false;
+                    }
+                } else{
+                    for (int k = y - 1; k < (y + SizeShips); k++) {
+                        if (board[x + 1][k] != '–') {
+                            if (isUserBoard){
+                                System.err.println("Adjacent battleship detected, try again!");
+                            }
+                            return false;
+                        }
                     }
                 }
-            }else {
-                for (int k = y; k <= (y + SizeShips); k++) {
+            }else if (y + SizeShips >= COLUMN){
+                for (int k = y; k < (y + SizeShips); k++) {
                     if (x + 1 < RAW) {
                         if (board[x + 1][k] != '–') {
                             if (isUserBoard){
@@ -327,8 +351,8 @@ public class Main {
         /*Checks the left of the ship. */
         if (y - 1 >= 0) {
             if (x - 1 >= 0) {
-                if (x + SizeShips <= RAW) {
-                    for (int k = x - 1; (k < (x + SizeShips)); k++) {
+                if (x + SizeShips < RAW) {
+                    for (int k = x - 1; (k <= (x + SizeShips)); k++) {
                         if (board[k][y - 1] != '–') {
                             if (isUserBoard){
                                 System.err.println("Adjacent battleship detected, try again!");
@@ -337,13 +361,26 @@ public class Main {
                         }
                     }
                 } else {
-                    if (isUserBoard){
-                        System.err.println("Adjacent battleship detected, try again!");
+                    for (int k = x - 1; k < (x + SizeShips); k++) {
+                        if (board[k][y - 1] != '–') {
+                            if (isUserBoard){
+                                System.err.println("Adjacent battleship detected, try again!");
+                            }
+                            return false;
+                        }
                     }
-                    return false;
+                }
+            } else if (x + SizeShips < RAW){
+                for (int k = x; (k <= (x + SizeShips)); k++) {
+                    if (board[k][y - 1] != '–') {
+                        if (isUserBoard){
+                            System.err.println("Adjacent battleship detected, try again!");
+                        }
+                            return false;
+                    }
                 }
             } else {
-                for (int k = x; (k < (x + SizeShips)); k++) {
+                for (int k = x; k < (x + SizeShips); k++) {
                     if (board[k][y - 1] != '–') {
                         if (isUserBoard){
                             System.err.println("Adjacent battleship detected, try again!");
@@ -356,15 +393,26 @@ public class Main {
         /*Checks the rightSide of the ship. */
         if (y + 1 < RAW) {
             if (x - 1 >= 0) {
-                for (int k = x - 1; k < (x + SizeShips); k++) {
-                    if (board[k][y + 1] != '–') {
-                        if (isUserBoard){
-                            System.err.println("Adjacent battleship detected, try again!");
+                if (x + SizeShips < RAW){
+                    for (int k = x - 1; k <= (x + SizeShips); k++) {
+                        if (board[k][y + 1] != '–') {
+                            if (isUserBoard){
+                                System.err.println("Adjacent battleship detected, try again!");
+                            }
+                            return false;
                         }
-                        return false;
+                    }
+                }else{
+                    for (int k = x - 1; k < (x + SizeShips); k++) {
+                        if (board[k][y + 1] != '–') {
+                            if (isUserBoard){
+                                System.err.println("Adjacent battleship detected, try again!");
+                            }
+                            return false;
+                        }
                     }
                 }
-            } else {
+            } else if(x + SizeShips < RAW) {
                 for (int k = x ; k <= (x + SizeShips); k++) {
                     if (x + 1 < RAW) {
                         if (board[k][y + 1] != '–') {
@@ -375,7 +423,20 @@ public class Main {
                         }
                     }
                 }
+            }else{
+                for (int k = x ; k < (x + SizeShips); k++) {
+                    if (x + 1 < RAW) {
+                        if (board[k][y + 1] != '–') {
+                            if (isUserBoard){
+                                System.err.println("Adjacent battleship detected, try again!");
+                            }
+                            return false;
+                        }
+                    }
+                }
             }
+        }else{
+            return true;
         }
         return true;
     }
