@@ -23,7 +23,7 @@ public class Main {
         char[][] pcGuessBoard = creatingBoards(RAW, COLUMN);
 
         /* The number of battleships and their size.*/
-        System.out.println("Enter the battleships size");
+        System.out.println("Enter the battleships sizes");
         String battleshipSizes = scanner.nextLine();
         /*Sets an array that store the number of battleships and there size.*/
         int[][] arrShipsSize = setArrOfShipsAndSize(battleshipSizes);
@@ -40,19 +40,19 @@ public class Main {
                 COLUMN, pcGameBoard, false);
 
         // TODO: We need to create a loop for all the user's and computer's attacks, in order of attacks.
-        boolean gameOver = false;
-        while (numOfShipsUser > 0 && numOfShipsPc > 0 && !gameOver){
+        /*Attacks*/
+        while (numOfShipsUser > 0 && numOfShipsPc > 0){
             /*The user is attacking:*/
             numOfShipsPc = playerAttacks(userGuessBoard , pcGameBoard, RAW, COLUMN, true, numOfShipsPc);
             if (numOfShipsPc == 0){
-                gameOver = true;
                 System.out.println("You won the game!");
+                return;
             }
             /*The computer is attacking:*/
             numOfShipsUser = playerAttacks(pcGuessBoard, userGameBoard , RAW, COLUMN, false, numOfShipsUser);
             if (numOfShipsUser == 0){
-                gameOver = true;
                 System.out.println("You lost ):");
+                return;
             }
         }
     }
@@ -155,7 +155,7 @@ public class Main {
                 }
             } while (numOfShipsOfTheSameSize > 0);
         }
-        printTheGameBoard(board, RAW, COLUMN);
+
         return countShips;
     }
 
@@ -197,7 +197,7 @@ public class Main {
                 }
             }
         }
-
+        System.out.println();
     }
 
     /**Checks if the location of horizontal ship is valid.
@@ -494,11 +494,16 @@ public class Main {
     public static int playerAttacks(char[][] guessingBoard, char[][] gameBoard, int RAW,
                                      int COLUMN, boolean isUserAttack, int numOfShips){
         int x, y;
+        boolean firstTry = true;
         boolean isValidAttack = true;
             do {
                 /* Prints the current guessing board each time.*/
-                printTheGuessingBoard(guessingBoard, RAW, COLUMN);
-                System.out.println("Enter a tile to attack");
+                if (firstTry && isUserAttack){
+                    printTheGameBoard(gameBoard, RAW, COLUMN);
+                    printTheGuessingBoard(guessingBoard, RAW, COLUMN);
+                    System.out.println("Enter a tile to attack");
+                    firstTry = false;
+                }
                 isValidAttack = true;
                 if(isUserAttack){
                     String xy = scanner.nextLine();
@@ -510,7 +515,7 @@ public class Main {
                     y = rnd.nextInt(COLUMN);
                 }
                 /*Checks if tile is valid.*/
-                if (x > COLUMN || y > RAW) {
+                if (x >= RAW || y >= COLUMN || x < 0 || y < 0) {
                     if (isUserAttack){
                         System.err.println("Illegal tile, try again!");
                     }
@@ -545,7 +550,7 @@ public class Main {
                                 numOfShips--;
                                 if (isUserAttack){
                                     System.out.println("The computer's battleship has been drowned, " +
-                                            numOfShips + "more battleships to go!");
+                                            numOfShips + " more battleships to go!");
                                 } else {
                                     System.out.println("Your battleship has been drowned, you have left " +
                                             numOfShips + " more battleships!");
@@ -555,11 +560,7 @@ public class Main {
                     }
                 }
             } while (!isValidAttack);
-        if (isUserAttack){
-            printTheGuessingBoard(guessingBoard, RAW, COLUMN);
-        }else {
-            printTheGameBoard(gameBoard, RAW, COLUMN);
-        }
+
         return numOfShips;
     }
     /**Prints the current guessing board each time.
@@ -600,6 +601,7 @@ public class Main {
                 }
             }
         }
+        System.out.println();
     }
 
     public static boolean checkIfDrowned(char[][] guessingBoard, char[][] gameBoard, int x, int y) {
