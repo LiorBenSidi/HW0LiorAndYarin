@@ -503,8 +503,8 @@ public class Main {
                 if (firstTry){
                     if (isUserAttack){
                         printTheGuessingBoard(guessingBoard, RAW, COLUMN);
+                        System.out.println("Enter a tile to attack");
                     }
-                    System.out.println("Enter a tile to attack");
                     firstTry = false;
                 }
                 isValidAttack = true;
