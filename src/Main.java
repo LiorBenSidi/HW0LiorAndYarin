@@ -29,10 +29,10 @@ public class Main {
 
         /*Sets the Location and orientation of user's battleships,
           and gets the total number of ships of each player.*/
-        int numOfShips= checkingAndPlacingTheShips(arrShipsSize, userGameBoard, true,scanner);
+        int numOfShips= checkingAndPlacingTheShips(arrShipsSize, userGameBoard, true);
 
         /*Sets the Location and orientation of computer's battleships,*/
-        checkingAndPlacingTheShips(arrShipsSize, pcGameBoard, false,scanner);
+        checkingAndPlacingTheShips(arrShipsSize, pcGameBoard, false);
 
         /*Attacks*/
         int numOfShipsUser = numOfShips;
@@ -40,14 +40,14 @@ public class Main {
         while (numOfShipsUser > 0 && numOfShipsPc > 0){
 
             /*The user is attacking:*/
-            numOfShipsPc = playerAttacks(userGuessBoard , pcGameBoard, true, numOfShipsPc,scanner);
+            numOfShipsPc = playerAttacks(userGuessBoard , pcGameBoard, true, numOfShipsPc);
             if (numOfShipsPc == 0){
                 System.out.println("You won the game!");
                 return;
             }
 
             /*The computer is attacking:*/
-            numOfShipsUser = playerAttacks(pcGuessBoard, userGameBoard, false, numOfShipsUser,scanner);
+            numOfShipsUser = playerAttacks(pcGuessBoard, userGameBoard, false, numOfShipsUser);
             if (numOfShipsUser == 0){
                 System.out.println("You lost ):");
                 return;
@@ -93,7 +93,7 @@ public class Main {
      * @param isUserBoard Checks if were updating the user or computer game board.
      * @return Returns the updated game board in accordance to the validity of the location of the battleships.
      */
-    public static int checkingAndPlacingTheShips(int[][] arrShipsSize, char[][] board, boolean isUserBoard,Scanner s){
+    public static int checkingAndPlacingTheShips(int[][] arrShipsSize, char[][] board, boolean isUserBoard){
         int x, y, o;
         int countShips = 0;
         boolean massageFlag = true;
@@ -109,7 +109,7 @@ public class Main {
                         System.out.println("Enter location and orientation for battleship of size " + SizeOfShips);
                     }
                 }if (isUserBoard){
-                    String xyo = s.nextLine();
+                    String xyo = scanner.nextLine();
                     String[] temp3 = xyo.split(", ");
                     x = Integer.parseInt(String.valueOf(temp3[0]));
                     y = Integer.parseInt(String.valueOf(temp3[1]));
@@ -121,10 +121,10 @@ public class Main {
                 }
                 /*Checks if tile is valid*/
                 if (o != 0 && o != 1) {
-                    if (isUserBoard){System.err.println("Illegal orientation, try again!");}
+                    if (isUserBoard){System.out.println("Illegal orientation, try again!");}
                     massageFlag = false;
                 }else if (x >= board.length || y >= board[0].length || x < 0 || y < 0){
-                    if (isUserBoard){System.err.println("Illegal tile, try again!");}
+                    if (isUserBoard){System.out.println("Illegal tile, try again!");}
                     massageFlag = false;
                 } else {
                     massageFlag = true;
@@ -182,18 +182,18 @@ public class Main {
      */
     public static boolean checkHorizontalShip(char[][] board, int x, int y, int SizeShips, boolean isUserBoard) {
         if (y + SizeShips > board[0].length) {
-            if (isUserBoard){System.err.println("Battleship exceeds the boundaries of the board, try again!");}
+            if (isUserBoard){System.out.println("Battleship exceeds the boundaries of the board, try again!");}
             return false;
         } for (int i = y; i < y + SizeShips; i++) {
             if (board[x][i] == '#') {
-                if (isUserBoard){System.err.println("Battleship overlaps another battleship, try again!");}
+                if (isUserBoard){System.out.println("Battleship overlaps another battleship, try again!");}
                 return false;
             }
         }
         /*Checks the left and the right sides of the ship. */
         if (!((y - 1 < 0 || (board[x][y - 1] == '–'))
                 && (y + SizeShips >= board[0].length || (board[x][y + SizeShips] == '–')))) {
-            if (isUserBoard){System.err.println("Adjacent battleship detected, try again!");}
+            if (isUserBoard){System.out.println("Adjacent battleship detected, try again!");}
             return false;
         }
         /*Checks the upside of the ship. */
@@ -203,14 +203,14 @@ public class Main {
                     for (int k = y - 1; k <= (y + SizeShips); k++) {
                         if (board[x - 1][k] != '–') {
                             if (isUserBoard){
-                                System.err.println("Adjacent battleship detected, try again!");
+                                System.out.println("Adjacent battleship detected, try again!");
                             } return false;
                         }
                     }
                 } else {
                     for (int k = y - 1; k < (y + SizeShips); k++){
                         if (board[x - 1][k] != '–'){
-                            if (isUserBoard){System.err.println("Adjacent battleship detected, try again!");}
+                            if (isUserBoard){System.out.println("Adjacent battleship detected, try again!");}
                             return false;
                         }
                     }
@@ -218,14 +218,14 @@ public class Main {
             } else if (y + SizeShips < board[0].length) {
                 for (int k = y; (k <= (y + SizeShips)); k++) {
                     if (board[x - 1][k] != '–') {
-                        if (isUserBoard){System.err.println("Adjacent battleship detected, try again!");}
+                        if (isUserBoard){System.out.println("Adjacent battleship detected, try again!");}
                         return false;
                     }
                 }
             }else {
                 for (int k = y; (k < (y + SizeShips)); k++) {
                     if (board[x - 1][k] != '–') {
-                        if (isUserBoard){System.err.println("Adjacent battleship detected, try again!");}
+                        if (isUserBoard){System.out.println("Adjacent battleship detected, try again!");}
                         return false;
                     }
                 }
@@ -237,14 +237,14 @@ public class Main {
                 if (y + SizeShips < board[0].length){
                     for (int k = y - 1; k <= (y + SizeShips); k++) {
                         if (board[x + 1][k] != '–') {
-                            if (isUserBoard){System.err.println("Adjacent battleship detected, try again!");}
+                            if (isUserBoard){System.out.println("Adjacent battleship detected, try again!");}
                             return false;
                         }
                     }
                 } else{
                     for (int k = y - 1; k < (y + SizeShips); k++) {
                         if (board[x + 1][k] != '–') {
-                            if (isUserBoard){System.err.println("Adjacent battleship detected, try again!");}
+                            if (isUserBoard){System.out.println("Adjacent battleship detected, try again!");}
                             return false;
                         }
                     }
@@ -253,12 +253,12 @@ public class Main {
                 for (int k = y; k < (y + SizeShips); k++) {
                     if (x + 1 < board.length) {
                         if (board[x + 1][k] != '–') {
-                            if (isUserBoard){System.err.println("Adjacent battleship detected, try again!");}
+                            if (isUserBoard){System.out.println("Adjacent battleship detected, try again!");}
                             return false;
                         }
                     }else{
                         if (board[x][k] != '–') {
-                            if (isUserBoard){System.err.println("Adjacent battleship detected, try again!");}
+                            if (isUserBoard){System.out.println("Adjacent battleship detected, try again!");}
                             return false;
                         }
                     }
@@ -281,14 +281,14 @@ public class Main {
     public static boolean checkVerticalShip(char[][] board, int x, int y, int SizeShips, boolean isUserBoard) {
         if (x + SizeShips > board.length) {
             if (isUserBoard){
-                System.err.println("Battleship exceeds the boundaries of the board, try again!");
+                System.out.println("Battleship exceeds the boundaries of the board, try again!");
             }
             return false;
         }
         for (int i = x; i < x + SizeShips; i++) {
             if (board[i][y] == '#') {
                 if (isUserBoard){
-                    System.err.println("Battleship overlaps another battleship, try again!");
+                    System.out.println("Battleship overlaps another battleship, try again!");
                 }
                 return false;
             }
@@ -297,7 +297,7 @@ public class Main {
         if (!((x - 1 < 0 || (board[x - 1][y] == '–'))
                 && (x + SizeShips >= board.length || (board[x + SizeShips][y] == '–')))) {
             if (isUserBoard){
-                System.err.println("Adjacent battleship detected, try again!");
+                System.out.println("Adjacent battleship detected, try again!");
             }
             return false;
         }
@@ -308,7 +308,7 @@ public class Main {
                     for (int k = x - 1; (k <= (x + SizeShips)); k++) {
                         if (board[k][y - 1] != '–') {
                             if (isUserBoard){
-                                System.err.println("Adjacent battleship detected, try again!");
+                                System.out.println("Adjacent battleship detected, try again!");
                             }
                             return false;
                         }
@@ -317,7 +317,7 @@ public class Main {
                     for (int k = x - 1; k < (x + SizeShips); k++) {
                         if (board[k][y - 1] != '–') {
                             if (isUserBoard){
-                                System.err.println("Adjacent battleship detected, try again!");
+                                System.out.println("Adjacent battleship detected, try again!");
                             }
                             return false;
                         }
@@ -327,7 +327,7 @@ public class Main {
                 for (int k = x; (k <= (x + SizeShips)); k++) {
                     if (board[k][y - 1] != '–') {
                         if (isUserBoard){
-                            System.err.println("Adjacent battleship detected, try again!");
+                            System.out.println("Adjacent battleship detected, try again!");
                         }
                             return false;
                     }
@@ -336,7 +336,7 @@ public class Main {
                 for (int k = x; k < (x + SizeShips); k++) {
                     if (board[k][y - 1] != '–') {
                         if (isUserBoard){
-                            System.err.println("Adjacent battleship detected, try again!");
+                            System.out.println("Adjacent battleship detected, try again!");
                         }
                         return false;
                     }
@@ -350,7 +350,7 @@ public class Main {
                     for (int k = x - 1; k <= (x + SizeShips); k++) {
                         if (board[k][y + 1] != '–') {
                             if (isUserBoard){
-                                System.err.println("Adjacent battleship detected, try again!");
+                                System.out.println("Adjacent battleship detected, try again!");
                             }
                             return false;
                         }
@@ -359,7 +359,7 @@ public class Main {
                     for (int k = x - 1; k < (x + SizeShips); k++) {
                         if (board[k][y + 1] != '–') {
                             if (isUserBoard){
-                                System.err.println("Adjacent battleship detected, try again!");
+                                System.out.println("Adjacent battleship detected, try again!");
                             }
                             return false;
                         }
@@ -370,7 +370,7 @@ public class Main {
                     if (x + 1 < board.length) {
                         if (board[k][y + 1] != '–') {
                             if (isUserBoard){
-                                System.err.println("Adjacent battleship detected, try again!");
+                                System.out.println("Adjacent battleship detected, try again!");
                             }
                             return false;
                         }
@@ -381,7 +381,7 @@ public class Main {
                     if (x + 1 < board.length) {
                         if (board[k][y + 1] != '–') {
                             if (isUserBoard){
-                                System.err.println("Adjacent battleship detected, try again!");
+                                System.out.println("Adjacent battleship detected, try again!");
                             }
                             return false;
                         }
@@ -416,7 +416,7 @@ public class Main {
      * @param gameBoard The player's game board.
      * @param isUserAttack Checks if were updating the user or computer game board.
      */
-    public static int playerAttacks(char[][] guessingBoard, char[][] gameBoard, boolean isUserAttack, int numOfShips, Scanner s){
+    public static int playerAttacks(char[][] guessingBoard, char[][] gameBoard, boolean isUserAttack, int numOfShips){
         int x, y;
         boolean firstTry = true;
         boolean isValidAttack;
@@ -429,7 +429,7 @@ public class Main {
                     }firstTry = false;
                 }isValidAttack = true;
                 if(isUserAttack){
-                    String xy = s.nextLine();
+                    String xy = scanner.nextLine();
                     String[] temp3 = xy.split(", ");
                     x = Integer.parseInt(String.valueOf(temp3[0]));
                     y = Integer.parseInt(String.valueOf(temp3[1]));
@@ -439,12 +439,12 @@ public class Main {
                 }
                 /*Checks if tile is valid.*/
                 if (x >= gameBoard.length || y >= gameBoard[0].length || x < 0 || y < 0) {
-                    if (isUserAttack){System.err.println("Illegal tile, try again!");}
+                    if (isUserAttack){System.out.println("Illegal tile, try again!");}
                     isValidAttack = false;
                 } else {
                     /*Checks if tile already attacked.*/
                             if (guessingBoard[x][y] != '–'){
-                                if (isUserAttack){System.err.println("Tile already attacked, try again!");}
+                                if (isUserAttack){System.out.println("Tile already attacked, try again!");}
                                 isValidAttack = false;
                             }
                     /*Checks if player misses or hits.*/
