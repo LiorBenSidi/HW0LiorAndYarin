@@ -436,8 +436,8 @@ public class Main {
                 x = Integer.parseInt(String.valueOf(temp3[0]));
                 y = Integer.parseInt(String.valueOf(temp3[1]));
             } else {
-                x = rnd.nextInt(gameBoard.length + 1 - 1);
-                y = rnd.nextInt(gameBoard[0].length + 1 - 1);
+                x = rnd.nextInt(gameBoard.length);
+                y = rnd.nextInt(gameBoard[0].length);
             }
             /*Checks if tile is valid.*/
             if (x >= gameBoard.length || y >= gameBoard[0].length || x < 0 || y < 0) {
@@ -479,6 +479,7 @@ public class Main {
             printTheGameBoard(gameBoard);
         } return numOfShips;
     }
+
     /**Prints the current guessing board each time.
      * Prints the row of numbers and the space before them.
      * Prints the board without the number row.
