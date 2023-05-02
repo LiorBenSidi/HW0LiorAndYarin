@@ -9,6 +9,7 @@ public class Main {
 
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
+
         /*Gets the size of the board.*/
         System.out.println("Enter the board size");
         String boardSize = scanner.nextLine();
@@ -27,16 +28,21 @@ public class Main {
         /*Sets an array that store the number of battleships and there size.*/
         int[][] arrShipsSize = setArrOfShipsAndSize(battleshipSizes);
 
+        /*gets the total number of ships of each player.*/
+        int numOfShips = 0;
+        for (int[] ints : arrShipsSize) {numOfShips += ints[0];}
+        int numOfShipsUser = numOfShips;
+        int numOfShipsPc = numOfShips;
+
         /*Sets the Location and orientation of user's battleships,
           and gets the total number of ships of each player.*/
-        int numOfShips= checkingAndPlacingTheShips(arrShipsSize, userGameBoard, true);
+        checkingAndPlacingTheShips(arrShipsSize, userGameBoard, true);
 
         /*Sets the Location and orientation of computer's battleships,*/
         checkingAndPlacingTheShips(arrShipsSize, pcGameBoard, false);
 
         /*Attacks*/
-        int numOfShipsUser = numOfShips;
-        int numOfShipsPc = numOfShips;
+
         while (numOfShipsUser > 0 && numOfShipsPc > 0){
 
             /*The user is attacking:*/
@@ -91,18 +97,15 @@ public class Main {
      * @param arrShipsSize Gets array that store the number of battleships and there size.
      * @param board Gets a game board.
      * @param isUserBoard Checks if were updating the user or computer game board.
-     * @return Returns the updated game board in accordance to the validity of the location of the battleships.
      */
-    public static int checkingAndPlacingTheShips(int[][] arrShipsSize, char[][] board, boolean isUserBoard){
+    public static void checkingAndPlacingTheShips(int[][] arrShipsSize, char[][] board, boolean isUserBoard){
         int x, y, o;
-        int countShips = 0;
         boolean massageFlag = true;
         for (int[] ints : arrShipsSize) {
             int numOfShipsOfTheSameSize = ints[0];
             int SizeOfShips = ints[1];
             do {
                 if (massageFlag) {
-                    countShips++;
                     /*Prints the current game board each time.*/
                     if (isUserBoard){
                         printTheGameBoard(board);
@@ -115,13 +118,13 @@ public class Main {
                     y = Integer.parseInt(String.valueOf(temp3[1]));
                     o = Integer.parseInt(String.valueOf(temp3[2]));
                 } else {
-                    x = rnd.nextInt(board.length);
-                    y = rnd.nextInt(board[0].length);
-                    o = rnd.nextInt(2);
+                    x = rnd.nextInt(board.length + 1 - 1);
+                    y = rnd.nextInt(board[0].length + 1 - 1);
+                    o = rnd.nextInt(2 + 1 - 1);
                 }
                 /*Checks if tile is valid*/
                 if (o != 0 && o != 1) {
-                    if (isUserBoard){System.out.println("Illegal orientation, try again!");}
+                    System.out.println("Illegal orientation, try again!");
                     massageFlag = false;
                 }else if (x >= board.length || y >= board[0].length || x < 0 || y < 0){
                     if (isUserBoard){System.out.println("Illegal tile, try again!");}
@@ -139,7 +142,6 @@ public class Main {
                 }
             } while (numOfShipsOfTheSameSize > 0);
         } if(isUserBoard){printTheGameBoard(board);}
-        return countShips;
     }
 
     /**Prints the current game board each time.
@@ -434,8 +436,8 @@ public class Main {
                 x = Integer.parseInt(String.valueOf(temp3[0]));
                 y = Integer.parseInt(String.valueOf(temp3[1]));
             } else {
-                x = rnd.nextInt(gameBoard.length);
-                y = rnd.nextInt(gameBoard[0].length);
+                x = rnd.nextInt(gameBoard.length + 1 - 1);
+                y = rnd.nextInt(gameBoard[0].length + 1 - 1);
             }
             /*Checks if tile is valid.*/
             if (x >= gameBoard.length || y >= gameBoard[0].length || x < 0 || y < 0) {
@@ -547,7 +549,7 @@ public class Main {
             for (int i = x - 1; (i >= 0) && isTherePartOfShip; i--){
                 if (gameBoard[i][y] != '–'){
                     if (guessingBoard[i][y] != 'V'){return false;}
-                }else{isTherePartOfShip = false;}
+                }else {isTherePartOfShip = false;}
             }
         } return true;
     }

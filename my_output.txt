@@ -7855,6 +7855,6 @@ Your current guessing board:
 Enter a tile to attack
 Exception in thread "main" java.util.NoSuchElementException: No line found
 	at java.base/java.util.Scanner.nextLine(Scanner.java:1554)
-	at Main.playerAttacks(Main.java:432)
-	at Main.battleshipGame(Main.java:43)
-	at Main.main(Main.java:569)
+	at Main.playerAttacks(Main.java:434)
+	at Main.battleshipGame(Main.java:49)
+	at Main.main(Main.java:571)
