@@ -160,9 +160,9 @@ public class Main {
         for (int i = 0; i < board.length; i++){
             for (int j = 0; j < board[0].length; j++){
                 if ( j == 0 ){
-                        for (int k = 0; k < String.valueOf(board.length).length() - String.valueOf(i).length(); k++){
-                            System.out.print(" ");
-                        } System.out.print(i);
+                    for (int k = 0; k < String.valueOf(board.length).length() - String.valueOf(i).length(); k++){
+                        System.out.print(" ");
+                    } System.out.print(i);
                 } System.out.print(" " + board[i][j]);
                 if (j + 1 == board[0].length){System.out.println();}
             }
@@ -329,7 +329,7 @@ public class Main {
                         if (isUserBoard){
                             System.out.println("Adjacent battleship detected, try again!");
                         }
-                            return false;
+                        return false;
                     }
                 }
             } else {
@@ -420,62 +420,62 @@ public class Main {
         int x, y;
         boolean firstTry = true;
         boolean isValidAttack;
-            do {
-                /* Prints the current guessing board each time.*/
-                if (firstTry){
-                    if (isUserAttack){
-                        printTheGuessingBoard(guessingBoard);
-                        System.out.println("Enter a tile to attack");
-                    }firstTry = false;
-                }isValidAttack = true;
-                if(isUserAttack){
-                    String xy = scanner.nextLine();
-                    String[] temp3 = xy.split(", ");
-                    x = Integer.parseInt(String.valueOf(temp3[0]));
-                    y = Integer.parseInt(String.valueOf(temp3[1]));
-                } else {
-                    x = rnd.nextInt(gameBoard.length);
-                    y = rnd.nextInt(gameBoard[0].length);
-                }
-                /*Checks if tile is valid.*/
-                if (x >= gameBoard.length || y >= gameBoard[0].length || x < 0 || y < 0) {
-                    if (isUserAttack){System.out.println("Illegal tile, try again!");}
+        do {
+            /* Prints the current guessing board each time.*/
+            if (firstTry){
+                if (isUserAttack){
+                    printTheGuessingBoard(guessingBoard);
+                    System.out.println("Enter a tile to attack");
+                }firstTry = false;
+            }isValidAttack = true;
+            if(isUserAttack){
+                String xy = scanner.nextLine();
+                String[] temp3 = xy.split(", ");
+                x = Integer.parseInt(String.valueOf(temp3[0]));
+                y = Integer.parseInt(String.valueOf(temp3[1]));
+            } else {
+                x = rnd.nextInt(gameBoard.length);
+                y = rnd.nextInt(gameBoard[0].length);
+            }
+            /*Checks if tile is valid.*/
+            if (x >= gameBoard.length || y >= gameBoard[0].length || x < 0 || y < 0) {
+                if (isUserAttack){System.out.println("Illegal tile, try again!");}
+                isValidAttack = false;
+            } else {
+                /*Checks if tile already attacked.*/
+                if (guessingBoard[x][y] != '–'){
+                    if (isUserAttack){System.out.println("Tile already attacked, try again!");}
                     isValidAttack = false;
-                } else {
-                    /*Checks if tile already attacked.*/
-                            if (guessingBoard[x][y] != '–'){
-                                if (isUserAttack){System.out.println("Tile already attacked, try again!");}
-                                isValidAttack = false;
-                            }
-                    /*Checks if player misses or hits.*/
-                    if (isValidAttack){
-                        if (!isUserAttack){System.out.println("The computer attacked (" + x + ", " + y + ")");}
-                        if (gameBoard[x][y] != '#'){
-                            guessingBoard[x][y] = 'X';
-                            System.out.println("That is a miss!");
-                        } else {
-                            guessingBoard[x][y] = 'V';
-                            System.out.println("That is a hit!");
-                            gameBoard[x][y] = 'X';
-                            /*Checks if player's battleship has been drowned*/
-                            boolean isDrowned = checkIfDrowned(guessingBoard, gameBoard, x, y);
-                            if (isDrowned){
-                                numOfShips--;
-                                if (isUserAttack){
-                                    System.out.println("The computer's battleship has been drowned, " +
-                                            numOfShips + " more battleships to go!");
-                                } else {
-                                    System.out.println("Your battleship has been drowned, you have left " +
-                                            numOfShips + " more battleships!");
-                                }
+                }
+                /*Checks if player misses or hits.*/
+                if (isValidAttack){
+                    if (!isUserAttack){System.out.println("The computer attacked (" + x + ", " + y + ")");}
+                    if (gameBoard[x][y] != '#'){
+                        guessingBoard[x][y] = 'X';
+                        System.out.println("That is a miss!");
+                    } else {
+                        guessingBoard[x][y] = 'V';
+                        System.out.println("That is a hit!");
+                        gameBoard[x][y] = 'X';
+                        /*Checks if player's battleship has been drowned*/
+                        boolean isDrowned = checkIfDrowned(guessingBoard, gameBoard, x, y);
+                        if (isDrowned){
+                            numOfShips--;
+                            if (isUserAttack){
+                                System.out.println("The computer's battleship has been drowned, " +
+                                        numOfShips + " more battleships to go!");
+                            } else {
+                                System.out.println("Your battleship has been drowned, you have left " +
+                                        numOfShips + " more battleships!");
                             }
                         }
                     }
                 }
-            } while (!isValidAttack);
-            if(!isUserAttack){
-                printTheGameBoard(gameBoard);
-            } return numOfShips;
+            }
+        } while (!isValidAttack);
+        if(!isUserAttack){
+            printTheGameBoard(gameBoard);
+        } return numOfShips;
     }
     /**Prints the current guessing board each time.
      * Prints the row of numbers and the space before them.
