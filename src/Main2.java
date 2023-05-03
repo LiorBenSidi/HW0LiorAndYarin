@@ -10,12 +10,14 @@ public class Main2 {
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
 
-        System.out.println("Enter the board size"); /*Gets the size of the board.*/
+        /*Gets the size of the board.*/
+        System.out.println("Enter the board size");
         String boardSize = scanner.nextLine();
         int n = Integer.parseInt(String.valueOf(boardSize.split("X")[0]));
         int m = Integer.parseInt(String.valueOf(boardSize.split("X")[1]));
 
-        System.out.println("Enter the battleships sizes"); /*Gets the number of battleships and their size.*/
+        /*Gets the number of battleships and their size.*/
+        System.out.println("Enter the battleships sizes");
         String strShipsNumAndSizes = scanner.nextLine();
 
         /*Sets a two-dimensional array that store the number of battleships and there size.*/
@@ -56,8 +58,12 @@ public class Main2 {
         }
     }
 
+    /**Sets a two-dimensional array that store the number of battleships and there size.
+     * @param strShipsNumAndSizes Gets the number and size of the battleships.
+     * @return Returns array that store the number of battleships and there size.
+     */
     public static int[][] shipsNumAndSizes(String strShipsNumAndSizes) {
-        String[] splitStrShipsNumAndSizes = strShipsNumAndSizes.split(" ");;
+        String[] splitStrShipsNumAndSizes = strShipsNumAndSizes.split(" ");
         int[][] twoDimArr = new int[splitStrShipsNumAndSizes.length][2];
         int i = 0;
         for (String strSplit : splitStrShipsNumAndSizes) {
@@ -68,24 +74,32 @@ public class Main2 {
         return twoDimArr;
     }
 
-    public static char[][] creatingBoards(int raw, int column) {
-        char[][] board = new char[raw][column];
-        for (int i = 0; i < raw; i++) {
-            for (int j = 0; j < column; j++) {
+    /**Creates a game/guess board.
+     * @param n Gets the number of rows.
+     * @param m Gets the number of columns.
+     * @return Returns a default game/guess board.
+     */
+    public static char[][] creatingBoards(int n, int m) {
+        char[][] board = new char[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 board[i][j] = '–';
             }
         }
         return board;
     }
 
+    /**Prints a game/guess board each time.
+     * First, prints the first line of board that is a row of numbers and space before each obe them.
+     * Second, prints a board without the first line.
+     * @param board Gets the game/guess board before and after the input.
+     * @param n Gets the number of rows.
+     * @param m Gets the number of columns.
+     */
     public static void printTheBoard(char[][] board, int n, int m) {
-        /*Prints the row of numbers and the space before them.*/
-        for (int i = 0; i < String.valueOf(board.length).length(); i++) {
-            System.out.print(" ");
-        }
-        for (int i = 0; i < board[0].length; i++) {
-            System.out.print(" " + i);
-        }
+        /*Prints the first line of board that is a row of numbers and space before each obe them.*/
+        for (int i = 0; i < String.valueOf(n).length(); i++) {System.out.print(" ");}
+        for (int i = 0; i < m; i++) {System.out.print(" " + i);}
         System.out.println();
 
         /*Prints the board without the number row.*/
@@ -109,9 +123,9 @@ public class Main2 {
     public static void userPlaceShips(int n, int m, int[][] arrShipsNumAndSizes, char[][] userGameBoard) {
         int x, y, o;
         boolean massageFlag = true;
-        for (int i = 0; i < arrShipsNumAndSizes.length; i++){
-            int numOfShips = arrShipsNumAndSizes[i][0];
-            int sizeOfShips = arrShipsNumAndSizes[i][1];
+        for (int[] arrShipsNumAndSize : arrShipsNumAndSizes) {
+            int numOfShips = arrShipsNumAndSize[0];
+            int sizeOfShips = arrShipsNumAndSize[1];
             do {
                 if (massageFlag) {
                     /*Prints the current game board each time.*/
@@ -129,7 +143,7 @@ public class Main2 {
                 /*Checks if tile is valid*/
                 massageFlag = userIsValidLocationAndOrientation(x, y, o, n, m, userGameBoard, sizeOfShips);
                 if (massageFlag) {
-                    locatesTheShip(x, y, o, n, m, userGameBoard, sizeOfShips);
+                    locatesTheShip(x, y, o, userGameBoard, sizeOfShips);
                     numOfShips--;
                 }
             } while (numOfShips > 0);
@@ -149,20 +163,12 @@ public class Main2 {
             return false;
         }
         if (o == 0) {
-            if (userCheckHorizontalShip(x, y, o, n, m, userGameBoard, sizeOfShips) == false) {
-                return false;
-            }
-        }
-        if (o == 1) {
-            if (userCheckVerticalShip(x, y, o, n, m, userGameBoard, sizeOfShips) == false) {
-                return false;
-            }
-        }
+            if (!userCheckHorizontalShip(x, y, n, m, userGameBoard, sizeOfShips)) {return false;}
+        } else if (!userCheckVerticalShip(x, y, n, m, userGameBoard, sizeOfShips)) {return false;}
         return true;
-
     }
 
-    public static boolean userCheckHorizontalShip(int x, int y, int o, int n, int m,
+    public static boolean userCheckHorizontalShip(int x, int y, int n, int m,
                                                   char[][] userGameBoard, int sizeOfShips) {
         if (y + sizeOfShips > m) {
             System.out.println("Battleship exceeds the boundaries of the board, try again!");
@@ -251,7 +257,7 @@ public class Main2 {
         return true;
     }
 
-    public static boolean userCheckVerticalShip(int x, int y, int o, int n, int m,
+    public static boolean userCheckVerticalShip(int x, int y, int n, int m,
                                                 char[][] userGameBoard, int sizeOfShips) {
         if (x + sizeOfShips > userGameBoard.length) {
             System.out.println("Battleship exceeds the boundaries of the board, try again!");
@@ -359,7 +365,7 @@ public class Main2 {
                 /*Checks if tile is valid*/
                 massageFlag = computerIsValidLocationAndOrientation(x, y, o, n, m, computerGameBoard, sizeOfShips);
                 if (massageFlag) {
-                    locatesTheShip(x, y, o, n, m, computerGameBoard, sizeOfShips);
+                    locatesTheShip(x, y, o, computerGameBoard, sizeOfShips);
                     numOfShips--;
                 }
             } while (numOfShips > 0);
@@ -368,35 +374,19 @@ public class Main2 {
 
     public static boolean computerIsValidLocationAndOrientation(int x, int y, int o, int n, int m,
                                                                 char[][] computerGameBoard, int sizeOfShips) {
-        if (o != 0 && o != 1) {
-            return false;
-        }
-        if (x >= n || y >= m || x < 0 || y < 0) {
-            return false;
-        }
+        if (o != 0 && o != 1) {return false;}
+        else if (x >= n || y >= m || x < 0 || y < 0) {return false;}
         if (o == 0) {
-            if (computerCheckHorizontalShip(x, y, o, n, m, computerGameBoard, sizeOfShips) == false) {
-                return false;
-            }
-        }
-        if (o == 1) {
-            if (computerCheckVerticalShip(x, y, o, n, m, computerGameBoard, sizeOfShips) == false) {
-                return false;
-            }
-        }
+            if (!computerCheckHorizontalShip(x, y, n, m, computerGameBoard, sizeOfShips)) {return false;}
+        } else if (!computerCheckVerticalShip(x, y, n, m, computerGameBoard, sizeOfShips)) {return false;}
         return true;
-
     }
 
-    public static boolean computerCheckHorizontalShip(int x, int y, int o, int n, int m,
+    public static boolean computerCheckHorizontalShip(int x, int y, int n, int m,
                                                       char[][] computerGameBoard, int sizeOfShips) {
-        if (y + sizeOfShips > m) {
-            return false;
-        }
+        if (y + sizeOfShips > m) {return false;}
         for (int i = y; i < y + sizeOfShips; i++) {
-            if (computerGameBoard[x][i] == '#') {
-                return false;
-            }
+            if (computerGameBoard[x][i] == '#') {return false;}
         }
         /*Checks the left and the right sides of the ship. */
         if (!((y - 1 < 0 || (computerGameBoard[x][y - 1] == '–'))
@@ -408,28 +398,20 @@ public class Main2 {
             if (y - 1 >= 0) {
                 if (y + sizeOfShips < m) {
                     for (int k = y - 1; k <= (y + sizeOfShips); k++) {
-                        if (computerGameBoard[x - 1][k] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[x - 1][k] != '–') {return false;}
                     }
                 } else {
                     for (int k = y - 1; k < (y + sizeOfShips); k++) {
-                        if (computerGameBoard[x - 1][k] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[x - 1][k] != '–') {return false;}
                     }
                 }
             } else if (y + sizeOfShips < m) {
                 for (int k = y; (k <= (y + sizeOfShips)); k++) {
-                    if (computerGameBoard[x - 1][k] != '–') {
-                        return false;
-                    }
+                    if (computerGameBoard[x - 1][k] != '–') {return false;}
                 }
             } else {
                 for (int k = y; (k < (y + sizeOfShips)); k++) {
-                    if (computerGameBoard[x - 1][k] != '–') {
-                        return false;
-                    }
+                    if (computerGameBoard[x - 1][k] != '–') {return false;}
                 }
             }
         }
@@ -438,28 +420,20 @@ public class Main2 {
             if (y > 0) {
                 if (y + sizeOfShips < m) {
                     for (int k = y - 1; k <= (y + sizeOfShips); k++) {
-                        if (computerGameBoard[x + 1][k] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[x + 1][k] != '–') {return false;}
                     }
                 } else {
                     for (int k = y - 1; k < (y + sizeOfShips); k++) {
-                        if (computerGameBoard[x + 1][k] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[x + 1][k] != '–') {return false;}
                     }
                 }
             } else {
                 if (y + sizeOfShips < m) {
                     for (int k = y; k < (y + sizeOfShips); k++) {
                         if (x + 1 < n) {
-                            if (computerGameBoard[x + 1][k] != '–') {
-                                return false;
-                            }
+                            if (computerGameBoard[x + 1][k] != '–') {return false;}
                         } else {
-                            if (computerGameBoard[x][k] != '–') {
-                                return false;
-                            }
+                            if (computerGameBoard[x][k] != '–') {return false;}
                         }
                     }
                 }
@@ -468,15 +442,11 @@ public class Main2 {
         return true;
     }
 
-    public static boolean computerCheckVerticalShip(int x, int y, int o, int n, int m,
+    public static boolean computerCheckVerticalShip(int x, int y, int n, int m,
                                                     char[][] computerGameBoard, int sizeOfShips) {
-        if (x + sizeOfShips > computerGameBoard.length) {
-            return false;
-        }
+        if (x + sizeOfShips > computerGameBoard.length) {return false;}
         for (int i = x; i < x + sizeOfShips; i++) {
-            if (computerGameBoard[i][y] == '#') {
-                return false;
-            }
+            if (computerGameBoard[i][y] == '#') {return false;}
         }
         /*Checks the upside and the underside sides of the ship. */
         if (!((x - 1 < 0 || (computerGameBoard[x - 1][y] == '–'))
@@ -488,28 +458,20 @@ public class Main2 {
             if (x - 1 >= 0) {
                 if (x + sizeOfShips < n) {
                     for (int k = x - 1; (k <= (x + sizeOfShips)); k++) {
-                        if (computerGameBoard[k][y - 1] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[k][y - 1] != '–') {return false;}
                     }
                 } else {
                     for (int k = x - 1; k < (x + sizeOfShips); k++) {
-                        if (computerGameBoard[k][y - 1] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[k][y - 1] != '–') {return false;}
                     }
                 }
             } else if (x + sizeOfShips < n) {
                 for (int k = x; (k <= (x + sizeOfShips)); k++) {
-                    if (computerGameBoard[k][y - 1] != '–') {
-                        return false;
-                    }
+                    if (computerGameBoard[k][y - 1] != '–') {return false;}
                 }
             } else {
                 for (int k = x; k < (x + sizeOfShips); k++) {
-                    if (computerGameBoard[k][y - 1] != '–') {
-                        return false;
-                    }
+                    if (computerGameBoard[k][y - 1] != '–') {return false;}
                 }
             }
         }
@@ -518,31 +480,23 @@ public class Main2 {
             if (x - 1 >= 0) {
                 if (x + sizeOfShips < n) {
                     for (int k = x - 1; k <= (x + sizeOfShips); k++) {
-                        if (computerGameBoard[k][y + 1] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[k][y + 1] != '–') {return false;}
                     }
                 } else {
                     for (int k = x - 1; k < (x + sizeOfShips); k++) {
-                        if (computerGameBoard[k][y + 1] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[k][y + 1] != '–') {return false;}
                     }
                 }
             } else if (x + sizeOfShips < n) {
                 for (int k = x; k <= (x + sizeOfShips); k++) {
                     if (x + 1 < n) {
-                        if (computerGameBoard[k][y + 1] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[k][y + 1] != '–') {return false;}
                     }
                 }
             } else {
                 for (int k = x; k < (x + sizeOfShips); k++) {
                     if (x + 1 < n) {
-                        if (computerGameBoard[k][y + 1] != '–') {
-                            return false;
-                        }
+                        if (computerGameBoard[k][y + 1] != '–') {return false;}
                     }
                 }
             }
@@ -550,24 +504,19 @@ public class Main2 {
         return true;
     }
 
-    public static void locatesTheShip(int x, int y, int o, int n, int m,
-                                      char[][] userGameBoard, int sizeOfShips) {
+    public static void locatesTheShip(int x, int y, int o, char[][] userGameBoard, int sizeOfShips) {
         if (o == 0) {
-            for (int i = y; i < (y + sizeOfShips); i++) {
-                userGameBoard[x][i] = '#';
-            }
+            for (int i = y; i < (y + sizeOfShips); i++) {userGameBoard[x][i] = '#';}
         } else {
-            for (int i = x; i < (x + sizeOfShips); i++) {
-                userGameBoard[i][y] = '#';
-            }
+            for (int i = x; i < (x + sizeOfShips); i++) {userGameBoard[i][y] = '#';}
         }
     }
 
     public static int userAttacks(int n, int m, char[][] userGuessBoard,
                                   char[][] computerGameBoard, int computerNumOfShips) {
         int x, y;
-        boolean firstTry = true;
-        boolean isValidAttack;
+        boolean firstTry = true; /*The first time that the user enter is attack in is turn.*/
+        boolean isValidAttack; /*Gets 'true' if the attack is valid, else - false.*/
         do {
             /* Prints the current guessing board each time.*/
             if (firstTry) {
@@ -625,7 +574,7 @@ public class Main2 {
     public static int computerAttacks(int n, int m, char[][] computerGuessBoard,
                                   char[][] userGameBoard, int userNumOfShips) {
         int x, y;
-        boolean isValidAttack;
+        boolean isValidAttack; /*Gets 'true' if the attack is valid, else - false.*/
         do {
             x = rnd.nextInt(n) ;
             y = rnd.nextInt(m) ;
@@ -660,13 +609,8 @@ public class Main2 {
     }
 
     public static boolean computerIsValidAttack(int x, int y, int n, int m, char[][] computerGuessBoard) {
-        if (x >= n || y >= m || x < 0 || y < 0) {
-            return false;
-        } else {
-            /*Checks if tile already attacked.*/
-            if (computerGuessBoard[x][y] != '–') {return false;}
-            return true;
-        }
+        if (x >= n || y >= m || x < 0 || y < 0) {return false;}
+        else {return computerGuessBoard[x][y] == '–'; /*Checks if tile already attacked.*/}
     }
 
     public static boolean checkIfDrowned(int x, int y, int n, int m, char[][] guessBoard,
@@ -684,13 +628,13 @@ public class Main2 {
             for (int i = y - 1; (i >= 0) && isTherePartOfShip; i--){
                 if (gameBoard[x][i] != '–'){
                     if (guessBoard[x][i] != 'V'){return false;}
-                }else{isTherePartOfShip = false;}
+                } else{isTherePartOfShip = false;}
             }
         }
         /*Checks vertical axis.*/
         isTherePartOfShip = true;
-        if (x != guessBoard.length - 1){
-            for (int i = x + 1; (i < guessBoard.length) && isTherePartOfShip; i++){
+        if (x != n - 1){
+            for (int i = x + 1; (i < n) && isTherePartOfShip; i++){
                 if (gameBoard[i][y] != '–'){
                     if (guessBoard[i][y] != 'V'){return false;}
                 } else {isTherePartOfShip = false;}
