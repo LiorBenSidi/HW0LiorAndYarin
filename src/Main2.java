@@ -29,9 +29,7 @@ public class Main2 {
 
         /*gets the total number of ships of each player.*/
         int numOfShips = 0;
-        for (int[] ints : arrShipsNumAndSizes) {
-            numOfShips += ints[0];
-        }
+        for (int[] ints : arrShipsNumAndSizes) {numOfShips += ints[0];}
         int userNumOfShips = numOfShips;
         int computerNumOfShips = numOfShips;
 
@@ -111,9 +109,9 @@ public class Main2 {
     public static void userPlaceShips(int n, int m, int[][] arrShipsNumAndSizes, char[][] userGameBoard) {
         int x, y, o;
         boolean massageFlag = true;
-        for (int[] ints : arrShipsNumAndSizes) {
-            int numOfShips = ints[0];
-            int sizeOfShips = ints[1];
+        for (int i = 0; i < arrShipsNumAndSizes.length; i++){
+            int numOfShips = arrShipsNumAndSizes[i][0];
+            int sizeOfShips = arrShipsNumAndSizes[i][1];
             do {
                 if (massageFlag) {
                     /*Prints the current game board each time.*/
@@ -451,15 +449,17 @@ public class Main2 {
                         }
                     }
                 }
-            } else if (y + sizeOfShips >= m) {
-                for (int k = y; k < (y + sizeOfShips); k++) {
-                    if (x + 1 < n) {
-                        if (computerGameBoard[x + 1][k] != '–') {
-                            return false;
-                        }
-                    } else {
-                        if (computerGameBoard[x][k] != '–') {
-                            return false;
+            } else {
+                if (y + sizeOfShips < m) {
+                    for (int k = y; k < (y + sizeOfShips); k++) {
+                        if (x + 1 < n) {
+                            if (computerGameBoard[x + 1][k] != '–') {
+                                return false;
+                            }
+                        } else {
+                            if (computerGameBoard[x][k] != '–') {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -627,8 +627,8 @@ public class Main2 {
         int x, y;
         boolean isValidAttack;
         do {
-            x = rnd.nextInt(n);
-            y = rnd.nextInt(m);
+            x = rnd.nextInt(n) ;
+            y = rnd.nextInt(m) ;
 
             isValidAttack = computerIsValidAttack(x, y, n, m, computerGuessBoard);
 
