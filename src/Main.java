@@ -75,8 +75,8 @@ public class Main {
     }
 
     /**Creates a game/guess board.
-     * @param n Gets the number of rows.
-     * @param m Gets the number of columns.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
      * @return Returns a default game/guess board.
      */
     public static char[][] creatingBoards(int n, int m) {
@@ -93,8 +93,8 @@ public class Main {
      * First, prints the first line of board that is a row of numbers and space before each obe them.
      * Second, prints a board without the first line.
      * @param board Gets the game/guess board before and after the input.
-     * @param n Gets the number of rows.
-     * @param m Gets the number of columns.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
      */
     public static void printTheBoard(char[][] board, int n, int m) {
         /*Prints the first line of board that is a row of numbers and space before each obe them.*/
@@ -118,6 +118,13 @@ public class Main {
         System.out.println();
     }
 
+    /** places the battleships on the user's game board.
+     *
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param arrShipsNumAndSizes Gets a two-dimensional array of all the battleships the player have and their sizes.
+     * @param userGameBoard Gets the user's gameBoard.
+     */
     public static void userPlaceShips(int n, int m, int[][] arrShipsNumAndSizes, char[][] userGameBoard) {
         int x, y, o;
         boolean massageFlag = true;
@@ -150,6 +157,17 @@ public class Main {
         printTheBoard(userGameBoard, n, m);
     }
 
+    /** Checks if the tile and orientation we got from the user are valid.
+     *
+     * @param x Gets the x-point rates of the user's submarine position.
+     * @param y Gets the y-point rates of the user's submarine position.
+     * @param o Gets 0 for horizontal orientation or 1 for vertical orientation.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param userGameBoard Gets the user's gameBoard.
+     * @param sizeOfShips Gets the size of the battleship that we want to place.
+     * @return True if the location and orientation are valid, else, return false.
+     */
     public static boolean userIsValidLocationAndOrientation(int x, int y, int o, int n, int m,
                                                             char[][] userGameBoard, int sizeOfShips) {
         if (o != 0 && o != 1) {
@@ -166,6 +184,16 @@ public class Main {
         return true;
     }
 
+    /** If the user gives valid horizontal tile, checks if we can place the battleship there.
+     *
+     * @param x Gets the x-point rates of the user's submarine position.
+     * @param y Gets the y-point rates of the user's submarine position.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param userGameBoard Gets the user's gameBoard.
+     * @param sizeOfShips Gets the size of the battleship that we want to place.
+     * @return True if the user can place the battleship, else, return false.
+     */
     public static boolean userCheckHorizontalShip(int x, int y, int n, int m,
                                                   char[][] userGameBoard, int sizeOfShips) {
         if (y + sizeOfShips > m) {
@@ -255,6 +283,16 @@ public class Main {
         return true;
     }
 
+    /** If the user gives valid vertical tile, checks if we can place the battleship there.
+     *
+     * @param x Gets the x-point rates of the user's submarine position.
+     * @param y Gets the y-point rates of the user's submarine position.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param userGameBoard Gets the user's gameBoard.
+     * @param sizeOfShips Gets the size of the battleship that the user want to place.
+     * @return True if we can place the battleship, else, return false.
+     */
     public static boolean userCheckVerticalShip(int x, int y, int n, int m,
                                                 char[][] userGameBoard, int sizeOfShips) {
         if (x + sizeOfShips > userGameBoard.length) {
@@ -348,6 +386,13 @@ public class Main {
         return true;
     }
 
+    /** Place the battleships on the computer's game board.
+     *
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param arrShipsNumAndSizes Gets a two-dimensional array of all the battleships the player have and their sizes.
+     * @param computerGameBoard Gets the computer's gameBoard.
+     */
     public static void computerPlaceShips(int n, int m, int[][] arrShipsNumAndSizes, char[][] computerGameBoard) {
         int x, y, o;
         boolean massageFlag;
@@ -370,6 +415,17 @@ public class Main {
         }
     }
 
+    /** Checks if the tile and orientation we got from the computer are valid.
+     *
+     * @param x Gets the x-point rates of the computer's submarine position.
+     * @param y Gets the y-point rates of the computer's submarine position.
+     * @param o Gets 0 for horizontal orientation or 1 for vertical orientation.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param computerGameBoard Gets the computer's game board.
+     * @param sizeOfShips Gets the size of the battleship that the computer want to place.
+     * @return True if the computer can place the battleship, else, return false.
+     */
     public static boolean computerIsValidLocationAndOrientation(int x, int y, int o, int n, int m,
                                                                 char[][] computerGameBoard, int sizeOfShips) {
         if (o != 0 && o != 1) {return false;}
@@ -380,6 +436,16 @@ public class Main {
         return true;
     }
 
+    /** If the computer gives valid horizontal tile, checks if we can place the battleship there.
+     *
+     * @param x Gets the x-point rates of the computer's submarine position.
+     * @param y Gets the y-point rates of the computer's submarine position
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param computerGameBoard Gets the computer's game board.
+     * @param sizeOfShips Gets the size of the battleship that the computer want to place.
+     * @return True if the computer can place the battleship, else, return false.
+     */
     public static boolean computerCheckHorizontalShip(int x, int y, int n, int m,
                                                       char[][] computerGameBoard, int sizeOfShips) {
         if (y + sizeOfShips > m) {return false;}
@@ -438,6 +504,16 @@ public class Main {
         return true;
     }
 
+    /** If the computer gives valid vertical tile, checks if we can place the battleship there.
+     *
+     * @param x Gets the x-point rates of the computer's submarine position.
+     * @param y Gets the y-point rates of the computer's submarine position.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param computerGameBoard Gets the computer's game board.
+     * @param sizeOfShips Gets the size of the battleship that the computer want to place.
+     * @return True if the computer can place the battleship, else, return false.
+     */
     public static boolean computerCheckVerticalShip(int x, int y, int n, int m,
                                                     char[][] computerGameBoard, int sizeOfShips) {
         if (x + sizeOfShips > computerGameBoard.length) {return false;}
@@ -498,11 +574,21 @@ public class Main {
         return true;
     }
 
+
     public static void locatesTheShip(int x, int y, int o, char[][] userGameBoard, int sizeOfShips) {
         if (o == 0) {for (int i = y; i < (y + sizeOfShips); i++) {userGameBoard[x][i] = '#';}}
         else {for (int i = x; i < (x + sizeOfShips); i++) {userGameBoard[i][y] = '#';}}
     }
 
+    /** Gets the tile the user want to attack the computer's field.
+     *
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's column.
+     * @param userGuessBoard Gets the user's guessing board.
+     * @param computerGameBoard Gets the computer's game board.
+     * @param computerNumOfShips Gets the number of the computer's not drowned battleships.
+     * @return The number of computer's not drowned battleships.
+     */
     public static int userAttacks(int n, int m, char[][] userGuessBoard,
                                   char[][] computerGameBoard, int computerNumOfShips) {
         int x, y;
@@ -548,6 +634,15 @@ public class Main {
         return computerNumOfShips;
     }
 
+    /** Checks if the user's attack is valid.
+     *
+     * @param x Gets the x point rates of the user's attack.
+     * @param y Gets the y point rates of the user's attack.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param userGuessBoard Gets the user's guessing board.
+     * @return True if user's attack is valid, else, false.
+     */
     public static boolean userIsValidAttack(int x, int y, int n, int m, char[][] userGuessBoard) {
         if (x >= n || y >= m || x < 0 || y < 0) {
             System.out.println("Illegal tile, try again!");
@@ -562,6 +657,15 @@ public class Main {
         }
     }
 
+    /** Gets the tile the user want to attack the computer's field.
+     *
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param computerGuessBoard Gets the computer's guessing board.
+     * @param userGameBoard Gets the user's game board.
+     * @param userNumOfShips Gets the number of the user's not drowned battleships.
+     * @return The number of user's not drowned battleships.
+     */
     public static int computerAttacks(int n, int m, char[][] computerGuessBoard,
                                       char[][] userGameBoard, int userNumOfShips) {
         int x, y;
@@ -599,11 +703,30 @@ public class Main {
         return userNumOfShips;
     }
 
+    /** Checks if the computer's attack is valid.
+     *
+     * @param x Gets the x point rates of the computer's attack.
+     * @param y Gets the y point rates of the computer's attack.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param computerGuessBoard Gets the computer's guessing board.
+     * @return True if computer's attack is valid, else, false.
+     */
     public static boolean computerIsValidAttack(int x, int y, int n, int m, char[][] computerGuessBoard) {
         if (x >= n || y >= m || x < 0 || y < 0) {return false;}
         else {return computerGuessBoard[x][y] == '–'; /*Checks if tile already attacked.*/}
     }
 
+    /** Checks if the last attack sank a submarine.
+     *
+     * @param x Gets the x point rates of the last attack.
+     * @param y Gets the y point rates of the last attack.
+     * @param n Gets the number of board's rows.
+     * @param m Gets the number of board's columns.
+     * @param guessBoard Gets the user's/computer's guessing board.
+     * @param gameBoard Gets the user's/computer's game board.
+     * @return True if the last attack has drowned a battleship, else, false.
+     */
     public static boolean checkIfDrowned(int x, int y, int n, int m, char[][] guessBoard,
                                          char[][] gameBoard) {
         boolean isTherePartOfShip = true;
