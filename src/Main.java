@@ -103,18 +103,16 @@ public class Main {
         System.out.println();
 
         /*Prints the board without the number row.*/
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 if (j == 0) {
-                    for (int k = 0; k < String.valueOf(board.length).length() - String.valueOf(i).length(); k++) {
+                    for (int k = 0; k < String.valueOf(n).length() - String.valueOf(i).length(); k++) {
                         System.out.print(" ");
                     }
                     System.out.print(i);
                 }
                 System.out.print(" " + board[i][j]);
-                if (j + 1 == board[0].length) {
-                    System.out.println();
-                }
+                if (j + 1 == m) {System.out.println();}
             }
         }
         System.out.println();
@@ -390,9 +388,7 @@ public class Main {
         }
         /*Checks the left and the right sides of the ship. */
         if (!((y - 1 < 0 || (computerGameBoard[x][y - 1] == '\u2013'))
-                && (y + sizeOfShips >= m || (computerGameBoard[x][y + sizeOfShips] == '\u2013')))) {
-            return false;
-        }
+                && (y + sizeOfShips >= m || (computerGameBoard[x][y + sizeOfShips] == '\u2013')))) {return false;}
         /*Checks the upside of the ship. */
         if (x - 1 >= 0) {
             if (y - 1 >= 0) {
@@ -450,9 +446,7 @@ public class Main {
         }
         /*Checks the upside and the underside sides of the ship. */
         if (!((x - 1 < 0 || (computerGameBoard[x - 1][y] == '\u2013'))
-                && (x + sizeOfShips >= n || (computerGameBoard[x + sizeOfShips][y] == '–')))) {
-            return false;
-        }
+                && (x + sizeOfShips >= n || (computerGameBoard[x + sizeOfShips][y] == '–')))) {return false;}
         /*Checks the left of the ship. */
         if (y - 1 >= 0) {
             if (x - 1 >= 0) {
@@ -505,11 +499,8 @@ public class Main {
     }
 
     public static void locatesTheShip(int x, int y, int o, char[][] userGameBoard, int sizeOfShips) {
-        if (o == 0) {
-            for (int i = y; i < (y + sizeOfShips); i++) {userGameBoard[x][i] = '#';}
-        } else {
-            for (int i = x; i < (x + sizeOfShips); i++) {userGameBoard[i][y] = '#';}
-        }
+        if (o == 0) {for (int i = y; i < (y + sizeOfShips); i++) {userGameBoard[x][i] = '#';}}
+        else {for (int i = x; i < (x + sizeOfShips); i++) {userGameBoard[i][y] = '#';}}
     }
 
     public static int userAttacks(int n, int m, char[][] userGuessBoard,
@@ -645,9 +636,10 @@ public class Main {
             for (int i = x - 1; (i >= 0) && isTherePartOfShip; i--){
                 if (gameBoard[i][y] != '\u2013'){
                     if (guessBoard[i][y] != 'V'){return false;}
-                }else {isTherePartOfShip = false;}
+                } else {isTherePartOfShip = false;}
             }
-        } return true;
+        }
+        return true;
     }
 
     public static void main(String[] args) throws IOException {
