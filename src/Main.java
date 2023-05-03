@@ -83,7 +83,7 @@ public class Main {
         char[][] board = new char[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                board[i][j] = '–';
+                board[i][j] = '\u2013';
             }
         }
         return board;
@@ -181,8 +181,8 @@ public class Main {
             }
         }
         /*Checks the left and the right sides of the ship. */
-        if (!((y - 1 < 0 || (userGameBoard[x][y - 1] == '–'))
-                && (y + sizeOfShips >= m || (userGameBoard[x][y + sizeOfShips] == '–')))) {
+        if (!((y - 1 < 0 || (userGameBoard[x][y - 1] == '\u2013'))
+                && (y + sizeOfShips >= m || (userGameBoard[x][y + sizeOfShips] == '\u2013')))) {
             System.out.println("Adjacent battleship detected, try again!");
             return false;
         }
@@ -191,14 +191,14 @@ public class Main {
             if (y - 1 >= 0) {
                 if (y + sizeOfShips < m) {
                     for (int k = y - 1; k <= (y + sizeOfShips); k++) {
-                        if (userGameBoard[x - 1][k] != '–') {
+                        if (userGameBoard[x - 1][k] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
                     }
                 } else {
                     for (int k = y - 1; k < (y + sizeOfShips); k++) {
-                        if (userGameBoard[x - 1][k] != '–') {
+                        if (userGameBoard[x - 1][k] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
@@ -206,14 +206,14 @@ public class Main {
                 }
             } else if (y + sizeOfShips < m) {
                 for (int k = y; (k <= (y + sizeOfShips)); k++) {
-                    if (userGameBoard[x - 1][k] != '–') {
+                    if (userGameBoard[x - 1][k] != '\u2013') {
                         System.out.println("Adjacent battleship detected, try again!");
                         return false;
                     }
                 }
             } else {
                 for (int k = y; (k < (y + sizeOfShips)); k++) {
-                    if (userGameBoard[x - 1][k] != '–') {
+                    if (userGameBoard[x - 1][k] != '\u2013') {
                         System.out.println("Adjacent battleship detected, try again!");
                         return false;
                     }
@@ -225,14 +225,14 @@ public class Main {
             if (y > 0) {
                 if (y + sizeOfShips < m) {
                     for (int k = y - 1; k <= (y + sizeOfShips); k++) {
-                        if (userGameBoard[x + 1][k] != '–') {
+                        if (userGameBoard[x + 1][k] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
                     }
                 } else {
                     for (int k = y - 1; k < (y + sizeOfShips); k++) {
-                        if (userGameBoard[x + 1][k] != '–') {
+                        if (userGameBoard[x + 1][k] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
@@ -241,12 +241,12 @@ public class Main {
             } else if (y + sizeOfShips >= m) {
                 for (int k = y; k < (y + sizeOfShips); k++) {
                     if (x + 1 < n) {
-                        if (userGameBoard[x + 1][k] != '–') {
+                        if (userGameBoard[x + 1][k] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
                     } else {
-                        if (userGameBoard[x][k] != '–') {
+                        if (userGameBoard[x][k] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
@@ -270,8 +270,8 @@ public class Main {
             }
         }
         /*Checks the upside and the underside sides of the ship. */
-        if (!((x - 1 < 0 || (userGameBoard[x - 1][y] == '–'))
-                && (x + sizeOfShips >= n || (userGameBoard[x + sizeOfShips][y] == '–')))) {
+        if (!((x - 1 < 0 || (userGameBoard[x - 1][y] == '\u2013'))
+                && (x + sizeOfShips >= n || (userGameBoard[x + sizeOfShips][y] == '\u2013')))) {
             System.out.println("Adjacent battleship detected, try again!");
             return false;
         }
@@ -280,14 +280,14 @@ public class Main {
             if (x - 1 >= 0) {
                 if (x + sizeOfShips < n) {
                     for (int k = x - 1; (k <= (x + sizeOfShips)); k++) {
-                        if (userGameBoard[k][y - 1] != '–') {
+                        if (userGameBoard[k][y - 1] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
                     }
                 } else {
                     for (int k = x - 1; k < (x + sizeOfShips); k++) {
-                        if (userGameBoard[k][y - 1] != '–') {
+                        if (userGameBoard[k][y - 1] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
@@ -295,14 +295,14 @@ public class Main {
                 }
             } else if (x + sizeOfShips < n) {
                 for (int k = x; (k <= (x + sizeOfShips)); k++) {
-                    if (userGameBoard[k][y - 1] != '–') {
+                    if (userGameBoard[k][y - 1] != '\u2013') {
                         System.out.println("Adjacent battleship detected, try again!");
                         return false;
                     }
                 }
             } else {
                 for (int k = x; k < (x + sizeOfShips); k++) {
-                    if (userGameBoard[k][y - 1] != '–') {
+                    if (userGameBoard[k][y - 1] != '\u2013') {
                         System.out.println("Adjacent battleship detected, try again!");
                         return false;
                     }
@@ -314,14 +314,14 @@ public class Main {
             if (x - 1 >= 0) {
                 if (x + sizeOfShips < n) {
                     for (int k = x - 1; k <= (x + sizeOfShips); k++) {
-                        if (userGameBoard[k][y + 1] != '–') {
+                        if (userGameBoard[k][y + 1] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
                     }
                 } else {
                     for (int k = x - 1; k < (x + sizeOfShips); k++) {
-                        if (userGameBoard[k][y + 1] != '–') {
+                        if (userGameBoard[k][y + 1] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
@@ -330,7 +330,7 @@ public class Main {
             } else if (x + sizeOfShips < n) {
                 for (int k = x; k <= (x + sizeOfShips); k++) {
                     if (x + 1 < n) {
-                        if (userGameBoard[k][y + 1] != '–') {
+                        if (userGameBoard[k][y + 1] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
@@ -339,7 +339,7 @@ public class Main {
             } else {
                 for (int k = x; k < (x + sizeOfShips); k++) {
                     if (x + 1 < n) {
-                        if (userGameBoard[k][y + 1] != '–') {
+                        if (userGameBoard[k][y + 1] != '\u2013') {
                             System.out.println("Adjacent battleship detected, try again!");
                             return false;
                         }
@@ -389,8 +389,8 @@ public class Main {
             if (computerGameBoard[x][i] == '#') {return false;}
         }
         /*Checks the left and the right sides of the ship. */
-        if (!((y - 1 < 0 || (computerGameBoard[x][y - 1] == '–'))
-                && (y + sizeOfShips >= m || (computerGameBoard[x][y + sizeOfShips] == '–')))) {
+        if (!((y - 1 < 0 || (computerGameBoard[x][y - 1] == '\u2013'))
+                && (y + sizeOfShips >= m || (computerGameBoard[x][y + sizeOfShips] == '\u2013')))) {
             return false;
         }
         /*Checks the upside of the ship. */
@@ -398,20 +398,20 @@ public class Main {
             if (y - 1 >= 0) {
                 if (y + sizeOfShips < m) {
                     for (int k = y - 1; k <= (y + sizeOfShips); k++) {
-                        if (computerGameBoard[x - 1][k] != '–') {return false;}
+                        if (computerGameBoard[x - 1][k] != '\u2013') {return false;}
                     }
                 } else {
                     for (int k = y - 1; k < (y + sizeOfShips); k++) {
-                        if (computerGameBoard[x - 1][k] != '–') {return false;}
+                        if (computerGameBoard[x - 1][k] != '\u2013') {return false;}
                     }
                 }
             } else if (y + sizeOfShips < m) {
                 for (int k = y; (k <= (y + sizeOfShips)); k++) {
-                    if (computerGameBoard[x - 1][k] != '–') {return false;}
+                    if (computerGameBoard[x - 1][k] != '\u2013') {return false;}
                 }
             } else {
                 for (int k = y; (k < (y + sizeOfShips)); k++) {
-                    if (computerGameBoard[x - 1][k] != '–') {return false;}
+                    if (computerGameBoard[x - 1][k] != '\u2013') {return false;}
                 }
             }
         }
@@ -420,20 +420,20 @@ public class Main {
             if (y > 0) {
                 if (y + sizeOfShips < m) {
                     for (int k = y - 1; k <= (y + sizeOfShips); k++) {
-                        if (computerGameBoard[x + 1][k] != '–') {return false;}
+                        if (computerGameBoard[x + 1][k] != '\u2013') {return false;}
                     }
                 } else {
                     for (int k = y - 1; k < (y + sizeOfShips); k++) {
-                        if (computerGameBoard[x + 1][k] != '–') {return false;}
+                        if (computerGameBoard[x + 1][k] != '\u2013') {return false;}
                     }
                 }
             } else {
                 if (y + sizeOfShips < m) {
                     for (int k = y; k < (y + sizeOfShips); k++) {
                         if (x + 1 < n) {
-                            if (computerGameBoard[x + 1][k] != '–') {return false;}
+                            if (computerGameBoard[x + 1][k] != '\u2013') {return false;}
                         } else {
-                            if (computerGameBoard[x][k] != '–') {return false;}
+                            if (computerGameBoard[x][k] != '\u2013') {return false;}
                         }
                     }
                 }
@@ -449,7 +449,7 @@ public class Main {
             if (computerGameBoard[i][y] == '#') {return false;}
         }
         /*Checks the upside and the underside sides of the ship. */
-        if (!((x - 1 < 0 || (computerGameBoard[x - 1][y] == '–'))
+        if (!((x - 1 < 0 || (computerGameBoard[x - 1][y] == '\u2013'))
                 && (x + sizeOfShips >= n || (computerGameBoard[x + sizeOfShips][y] == '–')))) {
             return false;
         }
@@ -458,20 +458,20 @@ public class Main {
             if (x - 1 >= 0) {
                 if (x + sizeOfShips < n) {
                     for (int k = x - 1; (k <= (x + sizeOfShips)); k++) {
-                        if (computerGameBoard[k][y - 1] != '–') {return false;}
+                        if (computerGameBoard[k][y - 1] != '\u2013') {return false;}
                     }
                 } else {
                     for (int k = x - 1; k < (x + sizeOfShips); k++) {
-                        if (computerGameBoard[k][y - 1] != '–') {return false;}
+                        if (computerGameBoard[k][y - 1] != '\u2013') {return false;}
                     }
                 }
             } else if (x + sizeOfShips < n) {
                 for (int k = x; (k <= (x + sizeOfShips)); k++) {
-                    if (computerGameBoard[k][y - 1] != '–') {return false;}
+                    if (computerGameBoard[k][y - 1] != '\u2013') {return false;}
                 }
             } else {
                 for (int k = x; k < (x + sizeOfShips); k++) {
-                    if (computerGameBoard[k][y - 1] != '–') {return false;}
+                    if (computerGameBoard[k][y - 1] != '\u2013') {return false;}
                 }
             }
         }
@@ -480,23 +480,23 @@ public class Main {
             if (x - 1 >= 0) {
                 if (x + sizeOfShips < n) {
                     for (int k = x - 1; k <= (x + sizeOfShips); k++) {
-                        if (computerGameBoard[k][y + 1] != '–') {return false;}
+                        if (computerGameBoard[k][y + 1] != '\u2013') {return false;}
                     }
                 } else {
                     for (int k = x - 1; k < (x + sizeOfShips); k++) {
-                        if (computerGameBoard[k][y + 1] != '–') {return false;}
+                        if (computerGameBoard[k][y + 1] != '\u2013') {return false;}
                     }
                 }
             } else if (x + sizeOfShips < n) {
                 for (int k = x; k <= (x + sizeOfShips); k++) {
                     if (x + 1 < n) {
-                        if (computerGameBoard[k][y + 1] != '–') {return false;}
+                        if (computerGameBoard[k][y + 1] != '\u2013') {return false;}
                     }
                 }
             } else {
                 for (int k = x; k < (x + sizeOfShips); k++) {
                     if (x + 1 < n) {
-                        if (computerGameBoard[k][y + 1] != '–') {return false;}
+                        if (computerGameBoard[k][y + 1] != '\u2013') {return false;}
                     }
                 }
             }
@@ -563,7 +563,7 @@ public class Main {
             return false;
         } else {
             /*Checks if tile already attacked.*/
-            if (userGuessBoard[x][y] != '–') {
+            if (userGuessBoard[x][y] != '\u2013') {
                 System.out.println("Tile already attacked, try again!");
                 return false;
             }
@@ -619,14 +619,14 @@ public class Main {
         /*Checks horizontal axis.*/
         if (y != m - 1){
             for (int i = y + 1; (i < m) && isTherePartOfShip; i++){
-                if (gameBoard[x][i] != '–') {
+                if (gameBoard[x][i] != '\u2013') {
                     if (guessBoard[x][i] != 'V'){return false;}
                 } else {isTherePartOfShip = false;}
             }
         } isTherePartOfShip = true;
         if (y != 0){
             for (int i = y - 1; (i >= 0) && isTherePartOfShip; i--){
-                if (gameBoard[x][i] != '–'){
+                if (gameBoard[x][i] != '\u2013'){
                     if (guessBoard[x][i] != 'V'){return false;}
                 } else{isTherePartOfShip = false;}
             }
@@ -635,7 +635,7 @@ public class Main {
         isTherePartOfShip = true;
         if (x != n - 1){
             for (int i = x + 1; (i < n) && isTherePartOfShip; i++){
-                if (gameBoard[i][y] != '–'){
+                if (gameBoard[i][y] != '\u2013'){
                     if (guessBoard[i][y] != 'V'){return false;}
                 } else {isTherePartOfShip = false;}
             }
@@ -643,7 +643,7 @@ public class Main {
         isTherePartOfShip = true;
         if (x != 0){
             for (int i = x - 1; (i >= 0) && isTherePartOfShip; i--){
-                if (gameBoard[i][y] != '–'){
+                if (gameBoard[i][y] != '\u2013'){
                     if (guessBoard[i][y] != 'V'){return false;}
                 }else {isTherePartOfShip = false;}
             }
